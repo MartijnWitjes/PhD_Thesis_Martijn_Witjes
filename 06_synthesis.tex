@@ -7,3 +7,32 @@
 
 \section{Detail and accuracy}
 
+
+\section{Combining datasets}
+
+    \subsection{Compatibility}
+        Eurostat should publish more detailed area estimates and include LULC combinations.
+
+
+\section{Future research}
+
+    \subsection{Hierarchical legends}
+
+        \subsubsection{Deeper legends}
+            Selective hierarchical classification will be more fine-grained if you have more levels in your hierarchy
+
+        \subsubsection{Best models for the job}
+            Can you train models in such a way that they are relatively more likely to make mistakes within the same category? Iterative learning models, such as gradient boosting and neural networks, might be trained with custom loss functions.
+            
+    \subsection{Iterative Mapping of Probabilities}
+
+        \subsubsection{Validating area estimates}
+            Take competing area estimates about the same area, and make maps of that area with each one. The most accurate area estimate should produce the most accurate map.
+
+        \subsubsection{Extrapolating area estimates}
+            IMP learns the bias of the model, and quantifies it in the cut-off probability value for each iteration to make sure the bias of the model is countered. This might be generalizable to areas where you don't have area estimates, if the confusion between classes is similar.
+            You could store the probability threshold for each class at each iteration, and apply them to probabilities predicted by the same model, for a different area.
+            this can be explored by mapping neighboring NUTS2 areas of the ones we have already mapped, using the cutoff values of their originally mapped neighbor. We can then pixel count, and compare the counts to the area estimates.
+
+        
+

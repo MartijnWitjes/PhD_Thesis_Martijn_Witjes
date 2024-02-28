@@ -6,7 +6,7 @@ This chapter is based on:
 \\
 % Full citation of the published (or submitted/in review) article
 % This refers to the article key in the refs.bib file.
-\fullcite{Doe2016}
+\fullcite{witjes2023ecodatacube}
 \newpage
 
 \section*{Abstract}
@@ -18,10 +18,10 @@ The paper describes the production steps and accuracy assessment of an analysis-
 
 Over recent decades, the world has experienced rapid growth in Earth Observation (EO) technology. This has brought many benefits to various applied fields, however, it also brings new challenges to aspiring users: massive data volumes produced by EO sensors and \emph{in-situ} monitoring networks require new specialized expertise and extensive computing capacity. \citet{wagemann2021a} lists the following five key challenges to finding, accessing, and combining big environmental data: (1) limited processing capacity on user side, (2) growing data volumes, (3) non-standardized data formats and dissemination workflows, (4) too many data portals, and (5) difficult data discovery. Environmental data needs to be as accessible and useful as possible, while all its limitations, caveats and uncertainties need to be clearly documented to minimize the risk of error propagation. In addition, decision-makers require easy access to open environmental data and critical assessment tools in order to dynamically synthesize the information needed to address many critical environmental and economic challenges \citep{giuliani2017building}. The European Green Deal specifically \citep{sikora2021european} requires a diversity of environmental information to reach its ambitious project goals, especially those focused on reaching climate neutrality, preservation of natural capital, modernization and simplification of the Common Agricultural Policy (CAP), and connecting farms to forks, all whilst enabling the socio-economic transformation of rural and agricultural areas. 
 
-To enhance environmental data use for decision-making, several groups in different areas around the world have been putting effort in building \emph{EO data cubes}: spatially aligned time-series of calibrated multi-dimensional observations \citep{giuliani2017building}; also see \citet{lu2018multidimensional, liu2021production, mirmazloumi2022elulc}. Some prominent examples of EO data cubes include the Earth System Data Cube \citep{mahecha2020earth}, Digital Earth Australia \citep{lucas2019land}, Digital Earth Africa \citep{Fang2021}, and the Swiss Data Cube \citep{chatenoux2021swiss}. Infrastructures such as the openEO Platform (\url{https://openeo.cloud/}), and Google Earth Engine (\url{https://developers.google.com/earth-engine}) can also be considered EO data cubes \citep{giuliani2020data} due to the ease with which users can combine the various data sets hosted on these platforms.
+To enhance environmental data use for decision-making, several groups in different areas around the world have been putting effort in building \emph{EO data cubes}: spatially aligned time-series of calibrated multi-dimensional observations \citep{giuliani2017building}; also see \citet{lu2018multidimensional, liu2021production, mirmazloumi2022elulc}. Some prominent examples of EO data cubes include the Earth System Data Cube \citep{mahecha2020earth}, Digital Earth Australia \citep{lucas2019land}, Digital Earth Africa \citep{fang2021analysis}, and the Swiss Data Cube \citep{chatenoux2021swiss}. Infrastructures such as the openEO Platform (\url{https://openeo.cloud/}), and Google Earth Engine (\url{https://developers.google.com/earth-engine}) can also be considered EO data cubes \citep{giuliani2020data} due to the ease with which users can combine the various data sets hosted on these platforms.
 
 Two important EO data sources in this context are Sentinel-2 and Landsat. 
-Sentinel-2 has provided global coverage every five days since the launch of its second satellite (Sentinel-2B) in 2017, available freely from multiple sources such as \url{https://scihub.copernicus.eu} and \url{https://earthexplorer.usgs.gov/}. In recent years it has served as input data for various global and continental land cover mapping initiatives, such as ESA's Worldcover \citep{van2021esa}, Google's DynamicWorld \citep{brown2022dynamic}, and Sentinel-2 Global Land Cover (S2GLC) \citep{malinowski2020automated}. The spatial resolution of Sentinel-2 sensors varies; the red, green, blue, and near-infrared (NIR) bands are available at 10~m resolution, while the two shortwave infrared (SWIR) bands are only available at 20~m.
+Sentinel-2 has provided global coverage every five days since the launch of its second satellite (Sentinel-2B) in 2017, available freely from multiple sources such as \url{https://scihub.copernicus.eu} and \url{https://earthexplorer.usgs.gov/}. In recent years it has served as input data for various global and continental land cover mapping initiatives, such as ESA's Worldcover \citep{kerchove2021esa}, Google's DynamicWorld \citep{brown2022dynamic}, and Sentinel-2 Global Land Cover (S2GLC) \citep{malinowski2020automated}. The spatial resolution of Sentinel-2 sensors varies; the red, green, blue, and near-infrared (NIR) bands are available at 10~m resolution, while the two shortwave infrared (SWIR) bands are only available at 20~m.
 
 The Landsat program is the world's longest continuously running EO mission \citep{wulder2022fifty}. It is \emph{de facto} the only option for assessing long-term dynamics as it provides an uninterrupted supply of satellite imagery since 1972. The entire archive was made available to the public in 2008, leading to widespread use, including refinement into data sets closer to analysis-ready status. The University of Maryland (UMD) Global Land Analysis and Discovery (GLAD) laboratory's Landsat ARD product is another representative example of long-term EO data due to its free availability, global coverage, and its inclusion and harmonization of a succession of Landsat satellite sources \citep{potapov2020landsat}. The original data is available in 23{\texttimes} 16-day scenes per year in scaled long format \citep{potapov2020landsat}. While this high temporal resolution and numerical precision provide a large amount of information for subsequent modeling and has been successfully utilized as such by teams with access to large computational resources \citep{hansen2022global}, the added benefit for Land Use Land Cover (LULC) classification compared with a compressed, more accessible form, has not yet been quantified. Furthermore, although the data set is nominally analysis-ready, we encountered the following limitations of using this data set for actual Machine Learning for the purpose of vegetation / land cover mapping:
 
@@ -51,14 +51,14 @@ In order to quantify the extent to which these data sets complement each other a
 \begin{figure}[!hbt]
 \centering
 \hspace*{-2.9cm}
-\includegraphics[width=1.2\textwidth]{fig_1_main_workflow.png}
+\includegraphics[width=1.2\textwidth]{figs_02/fig_1_main_workflow.png}
 \caption{Overview of the general workflow with input, intermediate, and output data sets, as well as operations and evaluations of data set quality.}
 \label{fig:1_methods_workflow}
 \end{figure}
 
 
 \begin{figure}
-    \includegraphics[width=\linewidth]{fig_2_study_area_satellite_input.png}
+    \includegraphics[width=\linewidth]{figs_02/fig_2_study_area_satellite_input.png}
     \caption{Overview of A: the area of interest, B: GLAD Landsat ARD tiles , C-D: Sentinel-2 orbits and scenes used as input sources, and E: the mosaicking algorithm that 1) computes quarterly composites, 2) mosaics the quarterly composites along orbital tracks, and 3) stitches the orbital track mosaics into a single data set.} 
     \label{fig:2_study_area_satellite_input}
 \end{figure}
@@ -115,7 +115,7 @@ In order to balance the trade-off between computation time of large areas while 
 %f
 \begin{figure}[!hbt]
 \centering
-\includegraphics[width=\linewidth]{fig_3_satellite_comparison.png}
+\includegraphics[width=\linewidth]{figs_02/fig_3_satellite_comparison.png}
 \caption{Overview of the spatial and temporal resolution and covered time range of the presented Landsat and Sentinel-2 data. Fig.\@~A shows a comparison of the spatial and temporal resolution of the satellite imagery data sets included in EcoDataCube, as well as the available bands and time range covered per data set. Microsoft Bing Terrain screenshot \copyright~Microsoft Corporation. Fig.\@~B shows which GLAD ARD intervals were used to generate which quartiles, and how this compares to the two commonly defined seasons in Europe. GLAD ARD intervals that would be in different seasons depending on the definition are marked in bright orange.}
 \label{fig:3_methods_satellite_comparison_and_intervals_seasons_quartiles}
 \end{figure}
@@ -244,18 +244,16 @@ Downloading the 2000--2020 time-series of 16-day composites for 1,149 1--degree 
 
 %f
 \begin{figure}[!hbt]
-    \includegraphics[width=\linewidth]{fig_4_gaps_landsat.png}
+    \includegraphics[width=\linewidth]{figs_02/fig_4_gaps_landsat.png}
     \caption{Percentage of gaps per pixel in the Landsat 30~m data between 2000--2020. Figs. A, B, C and D show the annual average, calculated per 30~km tile (1~million pixels) for each of the four quartiles that the GLAD Landsat ARD product was aggregated to. Fig.\@~E shows the percentage per year and quartile.}
     \label{fig:4_gaps_landsat}
 \end{figure}
 
 Sampling 100 gap-filling validation pixels for each 30~km tile in proportion to its land area resulted in 566,454~pixels from 6,750~tiles. Table\@~\ref{tab:results_gap-filling_nrmse} shows the average gap-filling NRMSE respectively per band and quartile. Our validation shows that the lowest gap-filling performance was on the NIR band in Q2 (Spring) with a NRMSE of 4.41\%, while the thermal band in Q2 was filled the most accurately with a NRMSE of 0.66\%. More generally, Q3 (Summer) was gap-filled the most accurately with an average NRMSE of 2.09\% , while Q4 (Winter) was gap-filled the least accurately with an average NRMSE of 2.36\%. Fig.\@~\ref{fig:5_map_gap-filling_nrmse} shows the spatial variability of gap-filling NRMSE per quartile, indicating a consistent higher error rate in mountainous areas, especially the Alps and the Scandinavian mountains.
 
-\afterpage{
-\clearpage
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=0.6\linewidth]{fig_5_gapfilling_accuracy_landsat.png}
+    \includegraphics[width=0.6\linewidth]{figs_02/fig_5_gapfilling_accuracy_landsat.png}
     \caption{Map of average gap-filling NRMSE per 30~km tile in the study area. Results show consistently higher values in mountainous regions, and lower values in Southern Europe.}
     \label{fig:5_map_gap-filling_nrmse}
 \end{figure}
@@ -279,7 +277,7 @@ Average &    2.17 		&    2.31 		&    2.09 		&    2.36 		&     2.23 \\
 \hline
 \end{tabular}
 \end{table}
-}
+
 
 \subsection*{Sentinel-2}
 
@@ -306,11 +304,10 @@ The input data for each annual set of Sentinel-2 quarterly composites at 30~m RG
 Fig.\@~\ref{fig:6_gaps_sentinel}-E shows that most gaps occur each year in the first quarter, especially in 2018. Except in 2018, the second highest number of gaps occurred in quarter 4 (September-December). Figs.\@~\ref{fig:6_gaps_sentinel}-A--D shows that across all years, Northern Scandinavia has the least gaps in quarter 2 (March-June), and that relatively more gaps occurred in a stripe pattern across Europe in quarter 1 (December-March).
 
 \begin{figure}[!hbt]
-    \includegraphics[width=\linewidth]{fig_6_gaps_sentinel.png}
+    \includegraphics[width=\linewidth]{figs_02/fig_6_gaps_sentinel.png}
     \caption{Overview of gaps per pixel in the Sentinel-2 time series. Average annual percentage of gaps per quartile and 30~km tile (a, b, c, d) and in total (e) for the 30~m data, as well as average annual percentage per 30~km tile for the 10~m data (f).}
     \label{fig:6_gaps_sentinel}
 \end{figure}
-% \clearpage
 
 \subsection*{Digital Terrain Model}
 
@@ -318,7 +315,7 @@ Results of modeling terrain with 5~million GEDI and 2 million ICESat-2 elevation
 
 \begin{figure}[hbt]
 \centering
-\includegraphics[width=\linewidth]{fig_7_dtm_comparison.png}
+\includegraphics[width=\linewidth]{figs_02/fig_7_dtm_comparison.png}
 \caption{Comparison of Ensemble DTM (left) and the AW3D Digital Surface Model for the Pannonian plane in Eastern Croatia (right). Tree height visible on AW3D seems to be systematically removed with the help of machine learning. Grid showing 30~km tiles.}
 \label{fig:7_dtm_comparison}
 \end{figure}
@@ -326,7 +323,7 @@ Results of modeling terrain with 5~million GEDI and 2 million ICESat-2 elevation
 Fig.\@~\ref{fig:8_dtm_accuracy} shows the average RMSE of the four input DEMs per 30\@~km tile and the standard deviation of these four values. Our results suggest that MERIT and EUDEM are  less accurate in large parts of Sweden, while GLO30 and AW3D are less accurate in central Europe. Furthermore, red lines are visible on these maps that match GEDI orbits and no natural features. Table~\ref{tab:dem-accuracy} compares the RMSE of each DEM and the Ensemble DTM. This shows that MERIT DEM had both the lowest RMSE (8.45~m) and the highest variable importance in the model. In summary, our results show that the DTM produced by the ensemble is approximately 2~meters more accurate than MERIT in the area of interest. A copy of the all inputs, regression-matrix and outputs produced, including the code used to fit models and produce predictions, is available via \url{https://doi.org/10.5281/zenodo.4056634}.
 
 \begin{figure}[!hbt]
-    \includegraphics[width=\linewidth]{fig_8_dtm_accuracy.png}
+    \includegraphics[width=\linewidth]{figs_02/fig_8_dtm_accuracy.png}
     \caption{Results of comparing GEDI and ICESat-2 measurements to AW3D, GLO30 EUDEM and MERIT values in 30\@~km tiles covering the study area. Fig.\@~A shows the average RMSE across the four data sets, while Fig.\@~B shows the standard deviation among RMSE values, representing the disagreement between the four data sets. Note the straight lines of higher average RMSE values in e.g. Iberia, which Fig.\@~B suggests are consistent across all four data sets. Instead, the data sets disagree most in parts of Northern Europe, especially Iceland.} 
     \label{fig:8_dtm_accuracy}
 \end{figure}      
@@ -348,7 +345,7 @@ EcoDataCube DTM & 6.544 & NA    \\
 \hline
 \end{tabular}
 \end{table}
-% \clearpage
+
 \subsection*{Land Cover Classification Tests}
 
 The random forest utilizing all four data sets (DTM, Landsat, Sentinel-2 10~m and 30~m) achieved the highest cross-validation scores (0.761) and second-highest test score (0.767). In general, models with multiple data sets in their feature space (DTM, Landsat, Sentinel-2 at 10~m spatial resolution, and/or Sentinel-2 at 30~m) outperformed models using a single data set. However, the highest test score of 0.774 was achieved by the Landsat model trained on 300,543 LUCAS observations spread out across 2000--2020, while this model had a relatively low cross-validation score of 0.715 (see Table~\ref{tab:landcover_experiments_results}). It appears that models utilizing DTM variables achieved higher cross-validation and test F1--scores in every experiment except for the Sentinel-2 10~m model. This model also achieved the lowest cross-validation and test scores. 
@@ -356,7 +353,7 @@ The random forest utilizing all four data sets (DTM, Landsat, Sentinel-2 10~m an
 Fig.\@~\ref{fig:9_landcover_feature_space} shows that models trained on data sets with multiple satellite sources and resolutions generally outperformed single-source or single-resolution models. Fig.\@~\ref{fig:9_landcover_feature_space}-A shows that \emph{``Shrubs``} and \emph{``Wetlands``} were more accurately classified by models only using 30~m data sets.  Fig.\@~\ref{fig:9_landcover_feature_space}-B shows that Sentinel-2 data was more useful for classifying \emph{``Artificial''} and \emph{``Water areas''}, while being less useful for classifying \emph{``Shrubs''} and \emph{``Wetlands''}. For these classes, Landsat data yielded higher F1-scores. Using the DTM and its derived variables generally yielded slight performance increases, except for \emph{``Crops``} and \emph{``Bare Ground``}. Fig\@~\ref{fig:9_landcover_feature_space}-A shows that including the DTM in the feature space mainly lead to higher accuracy when classifying \emph{``Shrubs''} and \emph{``Wetlands``}.
 
 \begin{figure}[!hbt]
-    \includegraphics[width=\linewidth]{fig_9_landcover_feature_space}
+    \includegraphics[width=\linewidth]{figs_02/fig_9_landcover_feature_space.png}
 
     \caption{Test F1-score of random forests trained to classify 8 LUCAS land cover classes, shown per class and aggregated based on which data sets were included in their feature space (A: spatial resolution, B: satellite source, and C: DTM). 
     Fig.\@~A shows that models trained on both 10\@~m and 30\@~m resolution data generally achieved the highest classification accuracy, but that models trained solely on 10~m (which is only Sentinel-2) classified water more accurately than models trained either 30m data sets or a combination of 30m and 10m. Especially the \emph{``Shrubs''}, \emph{``Grass''}, and \emph{``Wetlands''} classes were predicted much less accurately by the 10~m models. Combining 10\@~m and 30\@~m resolution data lead to the largest performance increase for the \emph{``Artificial``} class.
@@ -454,7 +451,7 @@ We did not analyze the effects of compressing the Landsat values from long unsig
 
 %f
 \begin{figure}[p]
-\includegraphics[width=\linewidth]{fig_10_data_viewer.png}
+\includegraphics[width=\linewidth]{figs_02/fig_10_data_viewer.png}
 \caption{Screenshot of the EcoDataCube.eu data viewer showing A: the probability of pasture land cover in 2019 near Copenhagen, Denmark, and B: Landsat-derived NDVI in the summer of 2019.}
 \label{fig:10_dataviewer_pasture}
 \end{figure}

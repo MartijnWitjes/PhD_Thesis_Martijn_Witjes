@@ -12,7 +12,7 @@
 
     Land cover, or the physical and biological material found on the surface of the earth, encompasses natural environments like forests, grasslands, wetlands, and things made by humans, like urban areas, croplands, and infrastructure. 
     
-    Its study and monitoring are crucial for a multitude of environmental and policy-related reasons. Land cover changes significantly influence regional and global climate patterns and are a major driver of biodiversity loss, emphasizing the necessity of monitoring for climate change mitigation and biodiversity preservation \citep{pielke2002influence, houghton2012carbon, sala2000global, cbd2016indicators}. 
+    Its study and monitoring are crucial for a multitude of reasons. Land cover changes significantly influence regional and global climate patterns and are a major driver of biodiversity loss, emphasizing the necessity of monitoring for climate change mitigation and biodiversity preservation \citep{pielke2002influence, houghton2012carbon, sala2000global, cbd2016indicators}. 
     
     Additionally, these changes have direct implications for the quality and availability of natural resources, such as water and air \citep{foley2005global}. Land cover assessment is vital for evaluating the livability of human environments \citep{levering2024landscape} and has key applications in informing policy, analyzing land-based emissions, and estimating local climate extremes \citep{duveiller2020, hong2021luemissions, sy2020}. 
     
@@ -26,7 +26,7 @@
 
     \subsubsection*{Forests}
 
-        Forests cover nearly a third of the planet's land area \citep{fao2022,banskota2014forest} and more than 41\% of the EU \citep{eurostat2021land} and are important for biodiversity \citep{cazzolla2022number}, carbon sequestration \citep{ipcc2021}, and have been supplying a plethora of resources used by human civilization since the palaeolithic. Given recent trends of globalization and deforestation, monitoring their change is essential \citep{sy2019} for a great number of actors, from the UN and national governments, the industrial sector, local communities, and Indigenous peoples.
+        Forests cover nearly a third of the planet's land area \citep{fao2022,banskota2014forest} and more than 41\% of the EU \citep{eurostat2021land} and are important for biodiversity \citep{cazzolla2022number}, carbon sequestration \citep{ipcc2021}, and have been supplying a plethora of resources used by human civilization since the palaeolithic. Given recent trends of globalization and deforestation, monitoring forest cover change and its drivers is crucial \citep{sy2019tropical,masolele2024mapping} for a great number of actors, from the UN and national governments, the industrial sector, local communities, and Indigenous peoples.
 
         National forest inventories, statisticians, and mapping organizations often disagree about the quantity of forest in any given area, which can lead to fierce scientific debates \citep{picard2021recent, korhonen2020new, palahi2021concerns, rossi2019assessing}
     
@@ -34,11 +34,15 @@
 
         Wetlands, recognized as one of the most biologically productive and important natural ecosystems, play a pivotal role in regulating the global climate, maintaining the hydrological cycle, and supporting diverse species \citep{hu2017global,ramsar2001wetlands}. The unique hydrology of these ecosystems influences the distribution of sediment, nutrients, flora, and fauna. They provide essential services such as improving water quality, flood mitigation, recharging aquifers, and supporting an array of wildlife \citep{costanza1997value,smardon2009sustaining}. Despite these benefits, wetlands have historically been undervalued, often seen as wastelands or disease sources, leading to significant losses due to reclamation and degradation \citep{giblett1996postmodern,owens2001global,davidson2014much,gardner2018global,dugan1993wetlands,oecd1996guidelines,ramsar2015wetlands}. The world has witnessed a dramatic decline in wetland areas, with an estimated 87\% degradation since 1700, particularly in the 20th and early 21st centuries, resulting in substantial economic losses and reduced ecosystem service value \citep{gardner2015state,costanza2014changes}. While they only cover 1.7\% of the EU \citep{eurostat2021land}, their vital role and the alarming rate of loss makes it crucial to preserve their ecological integrity and ensuring the continued provision of their invaluable ecosystem services.
 
-    \subsubsection{What should be on a map?}
+    \subsubsection{Land Use}
+
+        Land Use is not just what's there, but how it is being used by humans. A grassland can be an intensively grazed pasture or a protected nature reserve. A forest can be a palm oil plantation, a recreational area, or a rare old growth forest with religious significance. The term Land Use is sometimes used interchangeably with Land Cover, and different authors make different distinctions. For example \citet{hansen2022global} group inland water and wetlands as land cover, and built-up area, cropland and tree cover change as land use. Sometimes, a legend contains classes that are combinations of Land Use / Land Cover (LULC), such as pastures and natural grasslands in CORINE land cover, or even the grass fields at airports in the LUISA Basemap of Europe \citep{pigaiani2021luisa}. Because such classes can be ambiguous and hard to map by computer programs, they are not often reproduced at scale with remote sensing techniques. The LUCAS survey makes a clear distinction between land use and land cover; each observation has a separate listing for both types, with some combinations occurring frequently, and others not at all.
+
+    \subsubsection*{What should be on a map?}
 
         It should become clear now that there are a great many things that can be mapped. Large categories such as 'Forest' or 'Water' are relatively simple for people and computers to differentiate. However, adding more detail to the map by splitting up these big categories into more specific classes, or improving the \textit{thematic resolution}, brings many challenges. 
         
-        First of all, maps with many classes are hard to read by humans. This is of course not always necessary, as users can derive simpler maps from rich datasets to tailor them to their use case. \citep{tsendbazar2017integrating}. 
+        First of all, maps with many classes are hard to read by humans. This is of course not always necessary, as users can derive simpler maps from rich datasets to tailor them to their use case. \citep{tsendbazar2017integrating}, or use the mapped values for a different type of analysis. 
 
         Secondly, the process of making detailed maps is more costly and difficult. You need to collect more examples from more different categories, and not all categories are equally easy to distinguish by surveyors. Someone interpreting aerial imagery might be able to distinguish grassland from forest, but what if they want to map different tree species, or distinguish pastures from natural grassland?
 
@@ -50,7 +54,7 @@
     
     \begin{itemize}
         \item \textbf{Examples:} Confirmed observations of different types of land cover, with a known time and place. We call this \textbf{reference data}.
-        \item \textbf{Earth observation data:} satellite imagery and other geographic data that cover the area you want to map. Together, these \textbf{covariates} form the \textbf{feature space}.
+        \item \textbf{Earth observation data:} satellite imagery and other geographic data that cover the area you want to map. Together, these \textbf{covariates} form the \textbf{feature space}. Spatial and temporal metadata allow aspiring mappers to combine several existing, unrelated datasets into one feature space; a rarity in the machine learning domain. 
         \item A \textbf{Model:} Some kind of decision-making algorithm that learns to recognize which examples often occur at which combination of the covariates. If this goes well, you can use it to \textbf{predict} which land cover occurs at locations where you don't have reference data, but which are covered by the feature space.
     \end{itemize}
     
@@ -58,14 +62,14 @@
 
     \subsubsection*{Training data}
 
-        It is important to have enough points \citep{ramezan2021effects,rodriguez-perez2017influence,zhu2016optimizing}
+        Training data is a set of labeled observations that are used to teach a machine learning model to recognize similar things in new situations. 
         
-        To get the predicted quantities right, you need training data that matches the desired proportions \citep{}
+        The goal of most trained models is that they \textbf{generalize} well, which means that they can make consistent and accurate estimations in areas and moments they were not trained on. To make sure your model generalizes well, you have to cover the feature space of the area you want to map \citep{meyer2021predicting}. This does not directly relate to geographical space; large homogeneous areas such as deserts tend to be quite similar in the feature space, while small complex landscapes such as cities with parks, gardens and canals will show great local variation. 
+
+        It is important to have enough training examples \citep{ramezan2021effects,rodriguez-perez2017influence,zhu2016optimizing}, but what is 'enough' differs per model  \citep{myburgh2014impact} and task \citep{koshute2021recommending}.
         
-        You have to cover the feature space of the area you want to map, or your model will make shit up when predicting in unknown areas \citep{meyer2021predicting}
-
-        Geographical information systems allow aspiring mappers to combine several datasets into one feature space; a rarity in the machine learning domain.
-
+        Models often learn to estimate classes in the same proportions as their training data. If these proportions do not match the real-world situation of the area they need to map, the model is \textbf{biased}. To minimize this bias and predict the right relative quantities of each class, you need training data that matches the desired proportions \citep{he2009learning, kleinewillinghofer2022unbiased}.
+        
     \subsubsection*{Validation data}
 
         All maps are wrong \citep{monmonier2018how}, and maps produced with machine learning and earth observation data are no different. Errors can come from various sources: Some classes might be hard to distinguish in the available feature space, confusing the model. Some classes might be overrepresented in the training data, leading the model to predict it more frequently at the expense of other classes. 
@@ -93,9 +97,9 @@
         Most of the current generation of maps use 10m  Sentinel-2 data, which only became available since 2016. Mapping initiatives that use Landsat data can go back much further, but are then limited to mapping at 30m resolution. Examples are the Australian land cover time series made by \citep{calderon2021high} and the work of UMD GLAD, which produced annual land cover maps from the year 2000 onwards using Landsat data \citep{hansen2022global}.
     
     \subsubsection{Detail}
-        They often contain around ten classes. Mapping more classes is more difficult, especially for large diverse areas (e.g. continents or the whole planet). It is also more work to collect the data required to train models that can detect these.
+        They often depict around ten land cover categories (see Table~\ref{tab:bigmaps}) Mapping more classes is more difficult, especially for large diverse areas (e.g. continents or the whole planet). It is also more work to collect the data required to train and validate the models. [ CITE NANDIKA?]
     
-Still, in general, these products are all limited in more than one of these ways. 
+    Still, in general, these products are all limited in more than one of these ways. 
     
     \begin{table}[h]
     \centering
@@ -117,8 +121,9 @@ Still, in general, these products are all limited in more than one of these ways
     \end{tabular}
     }%
     \caption{Summary of Mapping Products and Data Availability}
-    \label{tab:my_label}
+    \label{tab:bigmaps}
     \end{table}
+    
     
     \subsection*{Rise of open data}
     
@@ -126,26 +131,16 @@ Still, in general, these products are all limited in more than one of these ways
     
     Especially in Europe, long-running datasets such as CORINE land cover and the LUCAS survey have provided detailed and consistent land cover information for almost two decades. \citet{pflugmacher2019mapping} demonstrated that it is possible to make accurate maps only using the openly available LUCAS dataset published by \citet{dandrimont2020harmonised} as training data.
 
-    % FROM ECODATACUBE
-
-    % Two important EO data sources in this context are Sentinel-2 and Landsat. 
-    % Sentinel-2 has provided global coverage every five days since the launch of its second satellite (Sentinel-2B) in 2017, available freely from multiple sources such as \url{https://scihub.copernicus.eu} and \url{https://earthexplorer.usgs.gov/}. In recent years it has served as input data for various global and continental land cover mapping initiatives, such as ESA's Worldcover \citep{van2021esa}, Google's DynamicWorld \citep{brown2022dynamic}, and Sentinel-2 Global Land Cover (S2GLC) \citep{malinowski2020automated}. The spatial resolution of Sentinel-2 sensors varies; the red, green, blue, and near-infrared (NIR) bands are available at 10~m resolution, while the two shortwave infrared (SWIR) bands are only available at 20~m.
-    
-    The Landsat program is the world's longest continuously running EO mission \citep{wulder2022fifty}. It is \emph{de facto} the only option for assessing long-term dynamics as it provides an uninterrupted supply of satellite imagery since 1972. The entire archive was made available to the public in 2008, leading to widespread use, including refinement into data sets closer to analysis-ready status. The University of Maryland (UMD) Global Land Analysis and Discovery (GLAD) laboratory's Landsat ARD product is another representative example of long-term EO data due to its free availability, global coverage, and its inclusion and harmonization of a succession of Landsat satellite sources \citep{potapov2020landsat}. The original data is available in 23{\texttimes} 16-day scenes per year in scaled long format \citep{potapov2020landsat}. While this high temporal resolution and numerical precision provide a large amount of information for subsequent modeling and has been successfully utilized as such by teams with access to large computational resources \citep{hansen2022global}
-    
-
-    
-    
-    
-
 
 \section{Research Gaps}
 
-There is a reproducibility crisis in science, and environmental monitoring is no exception. How can decision-makers trust datasets whose creation does not only involve complex workflows, but can not be reproduced or improved?
+    There is a reproducibility crisis in science, and environmental monitoring is no exception. How can decision-makers trust datasets whose creation does not only involve complex workflows, but can not be reproduced or improved? It turns out that they often don't, and keep relying on older methods that might be slow and expensive, but reproducible and reliable. The current boom in for-profit remote sensing has allowed for excellent analysis using high-resolution data (e.g. drivers of deforestation in Africa \citep{masolele2024mapping} using 3~m resolution Planet data), but limitations on sharing this data, and the profit and marketing motivations of corporations makes sharing, trusting, and using their maps difficult.
 
-There are no large-scale maps with more than 13 classes.
+    Furthermore, 
 
-Pixel-based uncertainty is not commonly used for maps with high thematic resolution.
+    There are no large-scale maps with more than 13 classes.
+
+    Pixel-based uncertainty is not commonly used for maps with high thematic resolution.
 
 
 
@@ -172,30 +167,28 @@ The research questions posed in the previous section are answered through four r
     \centering
     % \includegraphics{figs_01/fig_conceptual_framework.png}
     \caption{Caption}
-    \label{fig:enter-label}
+    \label{fig:01_conceptual_framework}
 \end{figure}
 
-\textbf{Chapter 2} discusses the combination of multiple earth observation datasets into a feasible, useful, and reproducible feature space for land cover classification. It describes how large satellite time-series were compressed and aggregated. The imputation of empty pixels is done by a novel algorithm, and is validated in a novel way. It then explores how combining the different datasets improves the accuracy of land cover classification models. Lastly, it shows that models trained on samples from a longer time range can generalize better to years that they have not been trained on.
-
-Witjes, M., Parente, L., Križan, J., Hengl, T., \& Antonić, L. (2023). Ecodatacube. eu: Analysis-ready open environmental data cube for Europe. PeerJ, 11, e15478. (published)
 
 
-\textbf{Chapter 2} focuses on the benefits and challenges of harmonizing and combining large-scale spatiotemporal datasets for land cover mapping, most of which were used in the following chapters. The chapter details the work that went into creating, harmonizing, and imputing multiple Earth observation datasets (Landsat, Sentinel-2, and a new 30m resolution DTM) covering Europe. It introduces and describes the imputation algorithm TMWM that was used to impute the Landsat data, and validates its accuracy in a spatiotemporally explicit way. Land cover experiments that demonstrate and quantify the added value of combining these different datasets are included.
 
+\textbf{Chapter 2} focuses on the benefits and challenges of harmonizing and combining large-scale spatiotemporal datasets for land cover mapping, most of which were used in the following chapters. The chapter details the work that went into creating, harmonizing, and imputing multiple Earth observation datasets (Landsat, Sentinel-2, and a new 30m resolution DTM) covering Europe. It introduces and describes the imputation algorithm TMWM that was used to impute the Landsat data, and validates its accuracy in a spatiotemporally explicit way. It then explores how combining the different datasets improves the accuracy of land cover classification models. Lastly, it shows that models trained on samples from a longer time range can generalize better to years that they have not been trained on.
+
+\fullcite{witjes2023ecodatacube}
 
 \textbf{Chapter 3} focuses on the production of annual land use / land cover maps of Europe for 2000-2020. It details the steps taken to harmonize and clean the training data from multiple openly available sources (CORINE, LUCAS) into a legend with 43 classes. A thorough accuracy assessment using cross-validation and an independent set of S2GLC validation points describes how well the model generalizes across space and time, and quantifies the trade-off imposed by having a legend with high thematic resolution. Results show that the maps have similar accuracy as other current continental-scale maps at low thematic resolution, and that a more detailed legend introduces more errors.
 
-Witjes, M., Parente, L., van Diemen, C. J., Hengl, T., Landa, M., Brodský, L., ... \& Glušica, L. (2022). A spatiotemporal ensemble machine learning framework for generating land use/land cover time-series maps for Europe (2000–2019) based on LUCAS, CORINE and GLAD Landsat. PeerJ, 10, e13573. (Published)
+\fullcite{witjes2022spatiotemporal}
 
 \textbf{Chapter 4} introduces IMP, an algorithm that uses land cover area estimates to iteratively classify land cover from existing probabilities, producing maps whose class proportions match the input estimates. It details the algorithm and showcases its use by mapping 5 European countries in 5 years. The accuracy of the maps is compared with maps created using highest likelihood classification. Results show that the proportional maps do not only have more accurate class proportions, but equal or better accuracy than highest likelihood maps. We also compare the accuracy and proportions of maps based on probabilities predicted by models trained on data representative of the area of interest, and probabilities predicted by a general model trained on large parts of Europe. Results show that maps based on general model predictions reach more accurate class proportions, while maps based on local model predictions are slightly more accurate. Finally, it presents an unintentional finding that the iterations at which the algorithm classifies certain pixels is related to the accuracy of those pixels, suggesting that it can be used to generate pixel-level accuracy estimates.
 
-Witjes, M., Herold, M., de Bruin, S., (2024) Iterative Mapping of Probabilities: A data fusion framework for generating accurate land cover maps that match area statistics. International Journal of Applied Earth Observation and Geoinformation. (In review)
+\fullcite{witjes2024iterative} (In review)
 
 \textbf{Chapter 5} builds on the methods and findings of the previous chapters. 
 Firstly, it presents a workflow to create larger and more detailed training datasets from multiple open data sources that are compatible with the hierarchical LUCAS land cover legend. 
-Secondly, it p
 Secondly, it investigates to what extent iteration classification uncertainty (ICU) can be used to provide reliable pixel-based uncertainty for land cover maps. It does this by creating high thematic resolution land cover maps of several NUTS2 regions across Europe, using Eurostat area estimates, training data extracted and harmonized from CORINE and EuroCrops, and validating them with LUCAS land cover points. 
 The pixel-based error estimates are then used to aggregate uncertain predictions to more general classes and guarantee a baseline level of accuracy at the cost of some thematic detail. Different heuristics of prediction uncertainty are compared in their reliability to guarantee an error rate and the extent to which thematic detail must be sacrificed.
 
-Witjes, M., Simoes, R., Sahin, M., Parente, L. (2024). Iterative Classification Uncertainty: Leveraging Iterative Mapping of Probabilities for pixel-based error estimation. Journal: TBD
+\fullcite{witjes2024hierarchical}
 (Work in progress)

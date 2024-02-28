@@ -149,7 +149,7 @@
 
 
 % typeset units correctly
-\usepackage[binary-units=true]{siunitx} 
+\usepackage{siunitx} 
 \sisetup{range-units=single}
 \DeclareSIUnit \lai{ \square\metre\per\square\metre }
 
@@ -160,7 +160,7 @@
 
 % full acronyms once, then abbreviations
 \usepackage{acronym} 
-\include{Acronyms}
+
 
 
 %\addto\captionsenglish{\renewcommand{\bibname}{References}} % REFERENCES > References
@@ -398,7 +398,7 @@
 	\include{04_chapter4}
 	\include{05_chapter5}
 	\include{06_synthesis} % Synthesis
-		
+	\include{Acronyms}
 	\backmatter
 	\phantomsection
 	\printbibliography[heading=bibintoc, title={References}]
