@@ -2,37 +2,153 @@
 \label{cha:Chapter6}
 \newpage
 
+This thesis has contributed towards efforts in large-scale land cover mapping, with an emphasis on the benefits of combining several datasets from different sources and of different types.
 
+[MEAT]
 
+This chapter is divided into two sections: the first summarizes contributions to the research objectives formulated in Section~\ref{sec:research_objectives}, comparing methodologies and findings; the second reflects on these contributions, offering perspectives on future research opportunities and collaborative endeavors. 
 
-\section{Detail and accuracy}
+\section{Main Findings}
 
+    The aim of this thesis is to address
+    
+    The chapters of this thesis have addressed various aspects
+    
+    the results will be assessed from the perspective of the research questions formulated in section [REF] Each research question is discussed below, summarizing the main findings and lessons learned.
+    
+    \subsection{What are the benefits and challenges of combining multiple large time-series and static EO datasets into Analysis-Ready Data for the purpose of land cover classification?}
+        
+        Spatial machine learning is unique in the sense that it allows modelers to easily combine variables if they can somehow acquire a representation of them at the time and place of the ground truth observation, such as with a spatial or spatiotemporal overlay. Experiments in Chapter 2\ref{cha:chapter2} showed that models using the full feature space (Landsat, Sentinel-2 and DTM) achieved the highest classification accuracy, with different datasets improving the results for different land cover classes. This is supported by variable importance in Chapter \ref{cha:chapter3}: Data from four different sources (Landsat, surface water frequency, DTM, and distance to coast) were among the top 15 of 200 variables for LULC modeling.
+        
+        While it is clear that combining different datasets into one feature space can improve model performance, there are some challenges:
+        \begin{itemize}
+        \item Differences in spatial resolution
+        \item Differences in temporal resolution
+        \item Missing data
+        \end{itemize}
+    
+    \subsubsection{Spatial resolution}
+    
+        Overlaying different raster datasets onto training samples may yield high accuracy (like in chapter 2), but can cause artifacts in the shape of low-resolution raster cells creating maps at the highest resolution among the used datasets \citep{moller2019oblique} [SNOWBALL A BIT HERE], or cause low mapping accuracy when mapping at a lower resolution [CITE]. 
+        
+    \subsubsection{Temporal resolution}
+    
+        Which timesteps do you map? Some maps are made by aggregating and averaging observations from several years \citep{pflugmacher2019mapping,esa2023cci}, which may give more robust results than annual maps, but loses detail. In chapters 3 and 4, we chose to make annual maps, and in chapter 3, we made annual maps for each consecutive year. 
+    
+        We used a space-first predictions strategy throughout this thesis, and not a time-first strategy [CITE GILBERTO?]. This has benefits: [BENEFITS] but also drawbacks. For example, mapping classes that change inside a year, such as crops.
+        
+    \subsubsection{Missing Data}
+        
+        This was also seen in chapter 3: While we smoothed out MODIS layers when subsampling to a 30m resolution to avoid artifacts from spatial resolution differences, the land cover maps have gaps near some coastlines due to missing auxiliary layers (see an example \href{https://ecodatacube.eu/?base=OpenStreetMap%20(grayscale)&layer=Land%20Cover%20&zoom=13.2&eye=5000000&center=52.4582,5.3267&opacity=100&time=2019}{here}). We only noticed this much later
+    
+    
+    
+    \subsection{To what extent does training data from multiple times and places improve the accuracy and generalization of land cover classification?}
+    
+    We did not have training data for each year, and therefore needed to test how well our model could generalize to 'unseen' years. Our results show that models trained on samples from different years were more accurate; both on years with available training data, and on unseen years. In particular, our map of 2017 was validated on the points collected by \citep{jenerowicz2021validation} to validate the S2GLC maps made by \citet{malinowski2020automated}, and achieved a similar accuracy without having training data from 2017 and operating on a lower spatial resolution.
+    
+    from eml lulc:
+    
+    In Chapter \ref{cha:chapter3}, we combined LUCAS points with samples extracted from CORINE polygons to create a training dataset with samples from X years. Cross-validation showed that the accuracy of the model was more consistent through time than through space
+    
+    \subsection{How does the number and type of classes in a legend affect the accuracy of land cover classification?}
+    
+    \subsubsection{Number of classes}
+    cross-validation accuracy
+    
+            eml lulc        hsc lc
+            f1      n       f1  n
+    lvl1    0.83    5       X   8
+    lvl2    0.51    14      X   X
+    lvl3    0.49    43      X   52
+    
+    
+    
+    \subsubsection{Type of classes}
+    
+    LULC
+    
+    different land use
+    pasture / natural grassland / airports
+    
+    from eml lulc
+    
+    aggregating the probabilities predicted by ensemble models 
+    When we summed the probabilities of all classes that composed the S2GLC legend in chapter \ref{cha:chapter3}, we achieved similar or higher accuracy than the S2GLC land cover maps. This means that training a model on many classes, even more classes than 'needed' for a specific use case, does not need to harm its accuracy in a simpler legend.
+    
+    \subsection{What is the effect of enforcing correct class proportions on map accuracy?}
+    
+    from IMP
+    
+    \subsection{Which uncertainty metric is the most useful for optimizing the trade-off between detail and accuracy?}
 
-\section{Combining datasets}
-
-    \subsection{Compatibility}
-        Eurostat should publish more detailed area estimates and include LULC combinations.
-
-
-\section{Future research}
-
-    \subsection{Hierarchical legends}
-
-        \subsubsection{Deeper legends}
-            Selective hierarchical classification will be more fine-grained if you have more levels in your hierarchy
-
-        \subsubsection{Best models for the job}
-            Can you train models in such a way that they are relatively more likely to make mistakes within the same category? Iterative learning models, such as gradient boosting and neural networks, might be trained with custom loss functions.
-            
+\section{Reflection and outlook}
+    
     \subsection{Iterative Mapping of Probabilities}
 
-        \subsubsection{Validating area estimates}
-            Take competing area estimates about the same area, and make maps of that area with each one. The most accurate area estimate should produce the most accurate map.
+        The IMP algorithm was developed as an attempt to produce maps that match existing area estimates without sacrificing accuracy. We discovered that it can \textit{improve} the accuracy, especially of biased models. The ability of IMP to correct the bias of a model post-hoc also means that models don't need to be trained on datasets that respect class balance. This means it can be combined well with training data generation techniques that don't respect class distributions, such as extracting points from polygons (see chapters 3, 4 and 5). Furthermore, it might improve the usefulness of oversampling techniques such as SMOTE  \citep{chawla2002smote}. While popular for improving minority probability predictions \citep{elor2022smote} and actively researched \citep{douzas2019imbalanced}, SMOTE is critiqued for mostly helping weak classifiers and actively harming the performance of stronger classifiers \citep{elor2022smote}. Oversampling improves the probability predictions of rare classes but worsens majority and overal log loss; this is not an issue when the probabilities are classified with IMP, as it only uses within-class probability distributions.
+        
+        With optimized thresholds, oversampling only helps very weak classifiers like MLP. Threshold optimization otherwise preferred \citep{elor2022smote} -> IMP can be considered such a threshold optimization technique!
+
+        The skewed class distribution may not be the core reason for poor performance on imbalanced data. Other factors like small sample size may play a bigger role. \citep{elor2022smote} -> Methods like mine that can generate large training datasets are therefore nice with it!
+        
 
         \subsubsection{Extrapolating area estimates}
             IMP learns the bias of the model, and quantifies it in the cut-off probability value for each iteration to make sure the bias of the model is countered. This might be generalizable to areas where you don't have area estimates, if the confusion between classes is similar.
             You could store the probability threshold for each class at each iteration, and apply them to probabilities predicted by the same model, for a different area.
             this can be explored by mapping neighboring NUTS2 areas of the ones we have already mapped, using the cutoff values of their originally mapped neighbor. We can then pixel count, and compare the counts to the area estimates.
+
+            This could make the method applicable for areas that are less meticulously quantified than Europe.
+        
+        \subsubsection{Validating area estimates}
+            If a reliable, trusted validation data exists for an area, IMP can be used to compare the accuracy of different area estimates by making hard-class maps for each area estimate. The area estimate that matches the reality on the ground most closely should allow IMP to produce the most accurate map.
+            In this way, IMP could be used to settle disputes about quantities of land cover and land cover change.
+
+            example: Forests
+
+        \subsubsection{Wider applicability}
+            Land cover and other remote sensing fields are not the only potential application for IMP. It can be used for any type of machine learning task where class proportions can be either estimated or targeted. Any field that utilizes machine learning models and faces challenges with class imbalance, representation bias, or requires models to perform accurately across diverse and potentially underrepresented groups would find such an algorithm highly beneficial. This approach could significantly enhance model fairness, accuracy, and generalization across a wide range of applications.
+
+            In medical diagnosis and disease prediction models, data can be inherently biased due to uneven representation of disease cases across populations. An algorithm that corrects for such biases could improve the accuracy of diagnostic tools and predictive models, making them more reliable for clinical decision-making and research studies. For instance, it could help in developing more accurate models for rare disease diagnosis where the class imbalance is a significant issue \citep{weiss2004mining,krawczyk2016learning}.
+
+            Financial institutions often use machine learning models for credit scoring and risk assessment. The training data can be biased due to historical decisions and social demographics, potentially leading to unfair assessments. A post-hoc correction algorithm could mitigate these biases, leading to fairer credit scoring and risk assessment models \citep{chen2018why, kamiran2012data}.
+
+            In predictive policing and recidivism prediction, biases in the training data can perpetuate and amplify societal biases. An algorithm that adjusts predictions post-hoc could help in reducing the bias in such models, contributing to fairer decision-making in the criminal justice system \citep{berk2021fairness, dressel2018accuracy}.
+
+            Recommendation systems in retail often suffer from popularity bias, where popular items are more likely to be recommended, potentially ignoring the long tail of less popular items. An algorithm that can correct for such biases post-hoc would improve the diversity and fairness of recommendations \citep{abdollahpouri2019managing}.
+    
+    
+    \subsection{Hierarchical Selective Classification}
+    
+        Selective hierarchical classification will be more fine-grained if you have more levels in your hierarchy.
+        Eurostat should publish more detailed area estimates and include LULC combinations. There is plenty of training data available for e.g. pastures, natural grasslands, and other grass areas such as those near airports.
+
+        \subsubsection{Prediction uncertainty}
+        
+            Finding the best uncertainty metric will be helpful. Well-calibrated probabilities and the margin of victory \citep{calderon-loor2021high} can be used as a heuristic proxy but offer no statistical guarantee. The land cover community is exploring techniques that promise such statistical guarantees on uncertainty quantification, such as conformal prediction \citep{angelopoulos2023predictionpowered,valle2023quantifying,singh2024uncertainty}. So far, however, they remain unused by the large-scale mapping initiatives, although those that publish all probabilities (like DynamicWorld) allow users to calculate some metrics themselves [CITE who did that]
+        
+            IMP: Classifications in earlier iterations are much more accurate than later classifications. The user accuracy on calibration data (from the same source as the training data) is a robust indicator of relative accuracy, which then can be regularized using the final validation of the map with an independent test dataset (e.g. LUCAS).
+    
+        \subsubsection{Best models for the job}
+                Can you train models in such a way that they are relatively more likely to make mistakes within the same category? Iterative learning models, such as gradient boosting and neural networks, might be trained with custom loss functions.
+
+    \subsection{Transfer learning and Foundational Models}
+    
+    
+    
+    
+    \subsection{Future maps}
+    
+        People are working on reproducing CORINE with ML, allbeit at 14 classes \citep{bhugra2022rapidai4eo}
+        
+        It is important to validate annual large-scale maps with up-to date validation data to ensure there is no dataset drift and to properly quantify accuracy and uncertainty \citep{tsendbazar2021towards}
+    
+    
+            
+                
+            
+
+
 
         
 

@@ -1,10 +1,7 @@
 # Propositions
 ## This thesis
 1. You can make accurate, reliable and useful maps using only open data
-2. NOT SURE YET:
-- It is important to assess and improve how the accuracy of your maps varies through space and time
-- 
-- (Trans)national organizations should put more effort in harmonizing different systems that quantify land cover and land use. 
+2. (Trans)national organizations should put more effort in harmonizing different systems that quantify land cover and land use. 
 ## Science in general
 3. PhD candidates should take every opportunity to exchange experiences to maintain healthy perspectives and boundaries.
 4. [Something about project pragmatism harming scientific rigor]

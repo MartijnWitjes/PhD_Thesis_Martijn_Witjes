@@ -36,7 +36,7 @@
 
     \subsubsection{Land Use}
 
-        Land Use is not just what's there, but how it is being used by humans. A grassland can be an intensively grazed pasture or a protected nature reserve. A forest can be a palm oil plantation, a recreational area, or a rare old growth forest with religious significance. The term Land Use is sometimes used interchangeably with Land Cover, and different authors make different distinctions. For example \citet{hansen2022global} group inland water and wetlands as land cover, and built-up area, cropland and tree cover change as land use. Sometimes, a legend contains classes that are combinations of Land Use / Land Cover (LULC), such as pastures and natural grasslands in CORINE land cover, or even the grass fields at airports in the LUISA Basemap of Europe \citep{pigaiani2021luisa}. Because such classes can be ambiguous and hard to map by computer programs, they are not often reproduced at scale with remote sensing techniques. The LUCAS survey makes a clear distinction between land use and land cover; each observation has a separate listing for both types, with some combinations occurring frequently, and others not at all.
+        Land Use is not just what's there, but how it is being used by humans. A grassland can be an intensively grazed pasture or a protected nature reserve. A forest can be a palm oil plantation, a recreational area, or a rare old growth forest with religious significance. The term Land Use is sometimes used interchangeably with Land Cover \citep{fisher2005land}, and different authors make different distinctions. For example \citet{hansen2022global} group inland water and wetlands as land cover, and built-up area, cropland and tree cover change as land use. Sometimes, a legend contains classes that are combinations of Land Use / Land Cover (LULC), such as pastures and natural grasslands in CORINE land cover, or even the grass fields at airports in the LUISA Basemap of Europe \citep{pigaiani2021luisa}. Because such classes can be ambiguous and hard to map by computer programs, they are not often reproduced at scale with remote sensing techniques. The LUCAS survey makes a clear distinction between land use and land cover; each observation has a separate listing for both types, with some combinations occurring frequently, and others not at all.
 
     \subsubsection*{What should be on a map?}
 
@@ -64,7 +64,7 @@
 
         Training data is a set of labeled observations that are used to teach a machine learning model to recognize similar things in new situations. 
         
-        The goal of most trained models is that they \textbf{generalize} well, which means that they can make consistent and accurate estimations in areas and moments they were not trained on. To make sure your model generalizes well, you have to cover the feature space of the area you want to map \citep{meyer2021predicting}. This does not directly relate to geographical space; large homogeneous areas such as deserts tend to be quite similar in the feature space, while small complex landscapes such as cities with parks, gardens and canals will show great local variation. 
+        The goal of most trained models is that they \textbf{generalize} well, which means that they can make consistent and accurate estimations in areas and moments they were not trained on. To make sure your model generalizes well, you have to properly represent the feature space of the area you want to map in your training data \citep{meyer2021predicting}. This does not directly relate to geographical space; large homogeneous areas such as deserts tend to be quite similar in the feature space, while small complex landscapes such as cities with parks, gardens and canals will show great local variation. 
 
         It is important to have enough training examples \citep{ramezan2021effects,rodriguez-perez2017influence,zhu2016optimizing}, but what is 'enough' differs per model  \citep{myburgh2014impact} and task \citep{koshute2021recommending}.
         
@@ -72,92 +72,96 @@
         
     \subsubsection*{Validation data}
 
-        All maps are wrong \citep{monmonier2018how}, and maps produced with machine learning and earth observation data are no different. Errors can come from various sources: Some classes might be hard to distinguish in the available feature space, confusing the model. Some classes might be overrepresented in the training data, leading the model to predict it more frequently at the expense of other classes. 
-
-        Quantity and allocation: Are there enough pixels of every class, and are they on the right place? \citep{pontius2006can,pontius2011death}
+        All maps are wrong \citep{monmonier2018how}, and maps produced with machine learning and earth observation data are no exception. Errors can be defined as \textit{quantity disagreement} and \textit{allocation disagreement}: Are there enough pixels of every class, and are they on the right place \citep{pontius2006can,pontius2011death}? Ideally, both of these types of error should be low. Errors can come from various sources: Some classes might be hard to distinguish in the available feature space, confusing the model \citep{shivakumar2017spectral}. Some classes might be overrepresented in the training data, leading the model to predict it more frequently at the expense of other classes and resulting in low quantity agreement .
 
         In general, it is essential that any map is validated with a set of observations. Such validation datasets need to be high quality: Their accuracy needs to be higher than the target accuracy of the map, they need to be representative of the classes in the mapped area 
     
         Bias in the training data can lead a model to overpredict certain classes. In this case, the proportions of the classes on the map will deviate from the proportions in the real world. It is very difficult to quantify the bias of a model before it is used \citep{stehman2013estimating}, and the current best way of fixing the proportions on a map is to measure the model bias with additional sampling after the mapping is complete \citep{stehman2014estimating}
 
         Classification errors become even more troublesome when land cover change is measured by comparing maps from two time periods, as any misclassified pixel will be interpreted as a change \citep{olofsson2013making}. This can be counteracted by careful sampling design \citep{stehman2012impact,olofsson2014good}, although some work has been done to circumvent this and derive area estimates directly from the model predictions \citep{sales2022land}
+
+    \subsubsection*{Earth Observation Data}
+
+        Earth observation data refers to measurements taken by sensors at various ranges, from ground measurements \citep{shahi2015novel} to drone \citep{tang2015precise} and airplane \citep{mastelic2020aerial} imagery to satellite scans \citep{phiri2020sentinel}. The most useful for recurring large-scale mapping are satellite scans, as satellites revisit the same area at a regular pace. This allows them to provide a consistent stream of data, which in some cases can continue for decades \citep{xiong2020modis,wulder2022fifty}.
+
+        Earth observation data only started becoming openly available after Brazil published its LANDSAT archives as open data \citep{nature2008markets}. Afterwards, more and more Earth observation data and land cover information is becoming openly available. 
+    
+        While this rapidly growing landscape of increasingly large datasets on diverging platforms and systems can be hard to navigate \citep{wagemann2021a}, it has fuelled an exponential increase in the amount of mapping initiatives and environmental awareness \citep{wulder2022fifty}, from deforestation \citep{hansen2013high}, soil \citep{hengl2017soilgrids250m}
+    
+        Especially in Europe, long-running datasets such as CORINE land cover and the LUCAS survey have provided detailed and consistent land cover information for almost two decades. \citet{pflugmacher2019mapping} demonstrated that it is possible to make accurate maps only using the openly available LUCAS dataset published by \citet{dandrimont2020harmonised} as training data.
+        
+        Combining different data sources can lead to much higher performance, for instance with crop stress detection  \citep{berger2022multi}, urban heat \citep{shahi2015novel}, and land cover classification \citep{zhu2016optimizing, hurskainen2019auxiliary, hosseiny2022urban}. There might even be an added benefit to combining data sources of different spatial resolutions or scales \citep{santos2012multiscale}.
     
 \subsection*{The current land cover mapping arms race}
     
-    In the last few years, several large-scale land cover maps have been made.
-    These maps often have high resolution and high accuracy, but are usually limited in multiple ways: Reproducibility, uncertainty, time coverage, and detail.
+    In the last few years, several large-scale high resolution land cover maps have been made: at a global scale ESA's WorldCover \citep{kerchove2021esa}, Google's DynamicWorld \citep{brown2022dynamic}, ESRI's Land Cover \citep{karra2021global}
+    These maps often have high resolution and high accuracy, but are usually limited in multiple ways: Reproducibility, time coverage, and detail.
     
     \subsubsection{Reproducibility}
         The current big mapping initiatives to only share their maps, not the reference data that they used to produce them. This not only makes it difficult or impossible to reproduce, validate \citep{venter2022global}, or improve their work, but also prevents it from being used for new projects \citep{tsendbazar2015assessing}.  A notable exception: The training data for Google's DynamicWorld \citet{brown2022dynamic} is available \citep{tait2021dwtd}.
     
-    \subsubsection{Uncertainty} 
-        What is the chance that a pixel on the map is actually that class? This 'User accuracy' is often reported for the whole map, separately for each class, but does not take into account that some pixel predictions are more likely to be correct than others. \citet{calderon2021high} used a 'margin of victory' (The difference in predicted probability between the most likely and second most likely class) to quantify prediction certainty. More recently, the land cover community is exploring techniques that promise statistical guarantees on uncertainty quantification, such as conformal prediction \citep{angelopoulos2023predictionpowered,valle2023quantifying,singh2024uncertainty}. So far, however, they remain unused by the large-scale mapping initiatives, although those that publish all probabilities (like DynamicWorld) allow users to calculate some metrics themselves
-    
     \subsubsection{Time coverage} 
         Most of the current generation of maps use 10m  Sentinel-2 data, which only became available since 2016. Mapping initiatives that use Landsat data can go back much further, but are then limited to mapping at 30m resolution. Examples are the Australian land cover time series made by \citep{calderon2021high} and the work of UMD GLAD, which produced annual land cover maps from the year 2000 onwards using Landsat data \citep{hansen2022global}.
-    
+
     \subsubsection{Detail}
-        They often depict around ten land cover categories (see Table~\ref{tab:bigmaps}) Mapping more classes is more difficult, especially for large diverse areas (e.g. continents or the whole planet). It is also more work to collect the data required to train and validate the models. [ CITE NANDIKA?]
-    
-    Still, in general, these products are all limited in more than one of these ways. 
-    
+        They often depict at most ten land cover categories (see Table~\ref{tab:bigmaps}) Mapping more classes is more difficult because there is more chance of confusion between similar classes, and because the class proportions in the training data need to represent the real proportions on the ground \citep{kleinewillinghofer2022unbiased}. This in turn requires more training data, and of higher quality, which is an expensive and complex task \citep{li2021improving}, especially for large diverse areas (e.g. continents or the whole planet) \citep{tsendbazar2021towards,stanimirova2023global}.
+
+    While there are exceptions to each of these issues, in general all mapping initiatives have at least one of these limitations (See table~\ref{tab:bigmaps})
+
     \begin{table}[h]
     \centering
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{|l|c|c|c|c|c}
     \hline
-    \textbf{Mapping Product} & \textbf{Classes} & \textbf{Training Data} & \textbf{Validation Data} & Time Extent & Uncertainty \\ \hline
-    ESA WorldCover \citep{zanaga2022esa}                    & 11    & No                                    & No                                    & two years         & No?           \\ 
+    \textbf{Mapping Product} & \textbf{Classes} & \textbf{Training Data} & \textbf{Validation Data} & Time Extent  \\ \hline
+    ESA WorldCover \citep{zanaga2022esa}                    & 11    & No                                    & No                                    & two years \\ 
     \hline
-    Google DynamicWorld                                     & 9     & Yes \citep{tait2021dwtd}              & No                                    & 2016+, monthly    & Probabilities \\ 
+    Google DynamicWorld                                     & 9     & Yes \citep{tait2021dwtd}              & No                                    & 2016+, monthly \\ 
     \hline
-    S2GLC Maps of Europe \citep{malinowski2020automated}    & 13    & No                                    & Yes \citep{jenerowicz2021validation}  & One year (2017)   & No            \\ 
+    ESRI Land Cover \citep{karra2021global}                 & 9     & No                                    & No Information                        & One year () \\
     \hline
-    ESRI Land Cover                                         & 9     & No                                    & No Information                        & No                & No            \\
+    \citep{zhang2020glc_fcs3}                               & 24    & ?                                     & ?                                     & Two years (2015,2020) \\
     \hline
-    Pan-European land cover \citep{pflugmacher2019mapping}  & 12    & Yes \citet{dandrimont2020harmonised}  & Yes (cross-validation)                & One year          & No            \\ 
+    S2GLC Maps of Europe \citep{malinowski2020automated}    & 13    & No                                    & Yes \citep{jenerowicz2021validation}  & One year (2017) \\ 
     \hline
-    Australian Land Cover \citep{calderon2021high}          & 6     & No                                    & No Information                        & 1985-2015         & Margin of Victory \\
+    ELC10 \citep{venter2021continentalscale}                & 8     & ?                                     & ?                                     & One year (2020) \\
+    \hline
+    Pan-European land cover \citep{pflugmacher2019mapping}  & 12    & Yes \citet{dandrimont2020harmonised}  & Yes (cross-validation)                & One year \\ 
+    \hline
+    Australian Land Cover \citep{calderon2021high}          & 6     & No                                    & No Information                        & 1985-2015 \\
     \end{tabular}
     }%
     \caption{Summary of Mapping Products and Data Availability}
     \label{tab:bigmaps}
     \end{table}
-    
-    
-    \subsection*{Rise of open data}
-    
-    Simultaneously as large governmental and private organisations flex their mapping muscle, a wealth of openly available data has been emerging. Funded by governments, companies, and philantropy - and sometimes sparked by rogue scientists (shoutout to gilberto camara) - more and more Earth observation data and land cover information is becoming openly available. While this rapidly growing landscape of increasingly large datasets on diverging platforms and systems can be hard to navigate \citep{wagemann2021a}, it has fuelled an exponential increase in the amount of mapping initiatives and environmental awareness \citep{wulder2022fifty}, from deforestation \citep{hansen2013high}, soil \citep{hengl2017soilgrids250m}
-    
-    Especially in Europe, long-running datasets such as CORINE land cover and the LUCAS survey have provided detailed and consistent land cover information for almost two decades. \citet{pflugmacher2019mapping} demonstrated that it is possible to make accurate maps only using the openly available LUCAS dataset published by \citet{dandrimont2020harmonised} as training data.
-
 
 \section{Research Gaps}
 
-    There is a reproducibility crisis in science, and environmental monitoring is no exception. How can decision-makers trust datasets whose creation does not only involve complex workflows, but can not be reproduced or improved? It turns out that they often don't, and keep relying on older methods that might be slow and expensive, but reproducible and reliable. The current boom in for-profit remote sensing has allowed for excellent analysis using high-resolution data (e.g. drivers of deforestation in Africa \citep{masolele2024mapping} using 3~m resolution Planet data), but limitations on sharing this data, and the profit and marketing motivations of corporations makes sharing, trusting, and using their maps difficult.
+    There is a reproducibility crisis in science, and environmental monitoring is no exception. How can decision-makers trust datasets whose creation does not only involve complex workflows, but can not be reproduced or improved? It turns out that they often don't, and keep relying on older methods that might be slow and expensive, but reproducible and reliable. The current boom in for-profit remote sensing has allowed for excellent analysis using high-resolution data (e.g. drivers of deforestation in Africa \citep{masolele2024mapping} using 3~m resolution Planet data), but limitations on sharing this data, and the profit and marketing motivations of corporations make sharing, trusting, and using their maps difficult.
 
-    Furthermore, 
+    There are no large-scale maps with more than 13 classes, not even for Europe, for which an unprecedented wealth of land cover information is publicly available \citep{dandrimont2020harmonised}. \citet{pflugmacher2019mapping} demonstrated that the LUCAS points can be used to train and validate land cover models, but the LUCAS legend is a hierarchical system with over 70 land cover classes. To retain its use as a validation set, training data should be extracted from other human-annotated datasets such as CORINE, EuroCrops \citep{schneider2023eurocrops} and OpenStreetMap. In order to use data with the large minimal mapping unit of CORINE or the potential errors in volunteered geographical information \citep{neis2014recent}, filtering techniques are required to remove spurious training samples.
 
-    There are no large-scale maps with more than 13 classes.
+    Furthermore, while some long-term annual mapping projects exist, they either have a low spatial resolution like ESA CCI \citep{harper202229} or cover only a select set of classes \citep{hansen2022global}
 
-    Pixel-based uncertainty is not commonly used for maps with high thematic resolution.
-
-
-
-
+    Lastly, in order to evaluate the impacts of human activities on the environment and to both enable and justify localized interventions, it is essential that trends from area estimates and periodic maps are linked \citep{olofsson2014good,szantoi2020addressing,winkler2021global}. This requires a mapping framework that minimizes both quantity and allocation error \citep{pontius2011death}. While many mapping initiatives report class proportions \citep{pflugmacher2019mapping} or try to approximate correct area estimation with direct remote sensing measures \citep{kleinewillinghofer2022unbiased}, only a few explicitly investigate methods to force maps to match area estimates \citep{strahler1980use,horvath2021comparison}.
+    
 
 \section{Objectives}
-
-The overall objective of this PhD thesis is to leverage the availability of various open European land use / land cover datasets and statistics, and to combine these with earth observation data and machine learning to make good maps. More specifically, this thesis aims to answer the following research questions:
+\label{sec:research_objectives}
+The overall objective of this PhD thesis is to leverage the availability of various open European land use / land cover datasets and statistics, and to combine these with Earth observation data and machine learning to make accurate, detailed maps that are compatible with the needs of European policy makers and researchers. More specifically, this thesis aims to answer the following research questions:
 
 \begin{enumerate}
-    \item How can various EO datasets be combined to be good for land cover classification?
-    \item To what extent does spatiotemporal approach lead to better results?
-    \item How can allocation and quantity agreement be optimized?
-    \item How can accuracy and detail be optimized?
+\item %The Value of Aggregating and Combining Time-Series and Static EO Data for Land Cover Classification: 
+What are the benefits and challenges of combining multiple large time-series and static EO datasets into Analysis-Ready data for the purpose of land cover classification?
+\item % The Value of a Spatiotemporal Approach for Land Cover Classification: 
+To what extent does training data from multiple times and places improve the accuracy and generalization of land cover classification?
+\item % The Effect of Legend Design and Size: 
+How does the number and type of classes in a legend affect the accuracy of land cover classification?
+\item % Ensuring Land Cover Maps Match Area Estimates Without Sacrificing Accuracy: 
+What is the effect of enforcing correct class proportions on map accuracy?
+\item % Obtaining Useful Prediction Uncertainty Estimates: 
+Which uncertainty metric is most useful for optimizing the trade-off between detail and accuracy?
 \end{enumerate}
-
-
 
 \section{Thesis Overview}
 
@@ -169,8 +173,6 @@ The research questions posed in the previous section are answered through four r
     \caption{Caption}
     \label{fig:01_conceptual_framework}
 \end{figure}
-
-
 
 
 \textbf{Chapter 2} focuses on the benefits and challenges of harmonizing and combining large-scale spatiotemporal datasets for land cover mapping, most of which were used in the following chapters. The chapter details the work that went into creating, harmonizing, and imputing multiple Earth observation datasets (Landsat, Sentinel-2, and a new 30m resolution DTM) covering Europe. It introduces and describes the imputation algorithm TMWM that was used to impute the Landsat data, and validates its accuracy in a spatiotemporally explicit way. It then explores how combining the different datasets improves the accuracy of land cover classification models. Lastly, it shows that models trained on samples from a longer time range can generalize better to years that they have not been trained on.
