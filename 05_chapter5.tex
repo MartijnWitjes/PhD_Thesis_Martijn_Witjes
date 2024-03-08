@@ -166,6 +166,11 @@ We filtered the training data with Copernicus HRL layers and OpenStreetmap build
 
 \subsection{Validation Data}
 
+\subsection{Land Cover Modeling}
+We trained a CatBoost model \citep{prokhorenkova2018catboost,hancock2020catboost} on 31.5 million training points containing 52 LUCAS land cover classes.
+
+
+
 \section{Results}
 \subsection{Training data}
 
@@ -188,6 +193,9 @@ Sampling up to four NUTS2 area/year combinations with more than 500 LUCAS points
     \caption{Number of LUCAS points per LUCAS class used to validate the land cover maps, colored based on their level 1 class.}
     \label{fig:05_lucas_aoi_counts}
 \end{figure}
+
+\subsection{Land Cover Modeling}
+
 
 \section{Discussion}
 
