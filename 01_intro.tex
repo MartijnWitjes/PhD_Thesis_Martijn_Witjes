@@ -98,7 +98,7 @@
     These maps often have high resolution and high accuracy, but are usually limited in multiple ways: reproducibility, time coverage, and detail.
     
     \subsubsection{Reproducibility}
-        The current big mapping initiatives only share their maps, not the reference data that they used to produce them. This not only makes it difficult or impossible to reproduce, validate \citep{venter2022global}, or improve their work, but also prevents it from being used for new projects \citep{tsendbazar2015assessing}.  A notable exception: the training data for Google's DynamicWorld \citet{brown2022dynamic} is available \citep{tait2021dwtd}.
+        The current big mapping initiatives only share their maps, not the reference data that they used to produce them. This not only makes it difficult or impossible to reproduce, validate \citep{venter2022global}, or improve their work, but also prevents it from being used for new projects \citep{tsendbazar2015assessing}.
     
     \subsubsection{Time coverage} 
         Most of the current generation of maps use 10m  Sentinel-2 data, which only became available in 2016. Mapping initiatives that use Landsat data can go back much further, but are then limited to mapping at 30m resolution. Examples are the Australian land cover time series made by \citep{calderon2021high} and the work of UMD GLAD, which produced annual land cover maps from the year 2000 onwards using Landsat data \citep{hansen2022global}.
@@ -166,13 +166,13 @@ Which uncertainty metric is most useful for optimizing the trade-off between det
 
 \section{Thesis Outline}
 
-The research questions posed in the previous section are answered through four research papers, which are presented as chapters in this thesis. Figure~\ref{fig:01_conceptual_framework} provides a graphical overview of how each chapter interacts in a conceptual framework. The first two chapters focus on combining earth observation and land cover data from multiple sources to train models that can generalize well to unknown years. The second two chapters introduce the use of existing area estimates to optimize the accuracy, quantity, and detail of predictions by such models.
+The research questions posed in the previous section are answered through four research papers, which are presented as chapters in this thesis. Figure~\ref{fig:01_rqs_chapters} provides a graphical overview of how each chapter relates to each research question framework. The first two chapters focus on combining earth observation and land cover data from multiple sources to train models that can generalize well to unknown years. The chapters 4 and 5 introduce and apply a novel algorithm that uses a-priori class proportions from area estimates to optimize the accuracy, quantity, and detail of predictions by such models.
 
 \begin{figure}
     \centering
-    % \includegraphics{figs_01/fig_conceptual_framework.png}
-    \caption{Caption}
-    \label{fig:01_conceptual_framework}
+    \includegraphics[width=\textwidth]{figs_01/fig_rqs_chapters.pdf}
+    \caption{Overview of which chapters discuss which research questions}
+    \label{fig:01_rqs_chapters}
 \end{figure}
 
 
