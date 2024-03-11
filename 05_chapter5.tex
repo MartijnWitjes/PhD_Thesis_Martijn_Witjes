@@ -10,27 +10,23 @@ This chapter is based on:
 \newpage
 
 \section*{Abstract}
-HAS TO HAVE ALL SECTIONS
+% HAS TO HAVE ALL SECTIONS
 
-CAN BE SHORT AND UNCOOKED
+% CAN BE SHORT AND UNCOOKED
 
-SOME CLEAR RESULTS
+% SOME CLEAR RESULTS
 \newpage
 
 \section{Introduction}
-Land cover is important. 
+[Land cover is important.]
 
 \subsection{Land cover mapping}
 
     \subsection{Where do you get data?}
-    
-        It is important to have independent training and validation samples. The best open validation samples for Europe are the LUCAS points \citep{dandrimont2021lucas,dandrimont2020harmonised} because of their sound sampling design, large legend, and covering multiple years \citep{venter2022global}
-        
-        Corine is super cool and can be harvested for training data\citep{witjes2022spatiotemporal,witjes2024iterative}
-        but doesn't have all classes for LUCAS validation \citep{dandrimont2021lucas} if you want to go beyond high level classes or throw a lot away \citep{pflugmacher2019mapping}.
-        Eurocrops is super cool and provides a lot of classes missing in CORINE \citep{schneider2023eurocrops}
-        OpenStreetMap is super cool and can be used to supplement training datasets with additional classes [SOURCE NEEDED] and can also be used to filter spurious labels extracted from CORINE \citep{witjes2022spatiotemporal}
 
+        It's important to use separate sets for training and validating models. THe LUCAS points are the best available validations amples for Europe because they have a rigorous sampling deesign, cover a wide range of land cover classes, and include data from multiple years \citep{dandrimont2020harmonised,dandrimont2021lucas,venter2022global}. The CORINE Land Cover dataset is a useful source of training data \citep{witjes2022spatiotemporal,witjes2024iterative}, but it lacks many classes at the thematic depth of the LUCAS legend, especially regarding crop types.
+        The EuroCrops dataset provides many of these classes at a level even more fine-grained than LUCAS itself \citep{schneider2023eurocrops}. Lastly, the volunteered geographical information of OpenStreetMap can be mined for land cover polygons \citep{witjes2022spatiotemporal}, especially if they relate to anthropogenic land cover types [CITE?]. 
+        
     \subsection{Detail and accuracy}
         
         Mapping many classes is more difficult:
@@ -46,9 +42,10 @@ Land cover is important.
         You can use heuristics but they don't give a statistical guarantee. Examples are the predicted probabilities, especially if they are well-calibrated \citep{niculescu2005predicting}, the margin of victory (the difference between the probabilities of the highest and second highest class) \citep{calderon-loor2021high}, and model variance from ensembles of classifiers \citep{witjes2022spatiotemporal}. \citet{witjes2024iterative} found indications of a relationship between a prediction's certainty and the iteration at which it is classified by IMP.
 
     \subsection{Selective classification}
+        Selective classification, also known as reject option classification, introduces a mechanism within classification models to abstain from making a prediction when the model's confidence is below a certain threshold. This approach aims to enhance the overall reliability and accuracy of the model by only making decisions when the model is sufficiently certain. \citet{geifman2017selective} emphasize the potential of selective classification in improving the safety and robustness of machine learning applications, particularly in critical areas such as medical diagnosis and autonomous driving. By implementing a reject option, models can effectively reduce the risk of making incorrect predictions at the cost of not making a decision in all cases. This trade-off is particularly crucial in scenarios where the cost of an error far outweighs the benefit of a correct but uncertain prediction. The selective classification framework thus provides a pragmatic approach to managing uncertainty and enhancing decision quality in machine learning systems.
 
-    \subsection{hierarchical classification}
-        you can first predict level 1 and then level 2, but then there's error propopagation
+    \subsection{Hierarchical classification}
+        \citet{kim2016modis} leveraged a small hierarchical legend by using different models to identify sub-classes of different crop types. A similar approach was tried with the Brazilian PRODES project, where first a forest mask was created with high precision (user's accuracy); subsequent forest change detection algorithms were later only applied to the area covered by the forest mask \citep{hansen2008comparing}.
 
     \subsection{Research gaps}
         It is likely that prediction uncertainty will be higher when there are more classes in a legend, especially when they are spectrally similar, such as different cereal types. This introduces errors in the map that could be avoided by having a simpler legend, but this sacrifices thematic depth for accuracy There is a need for maps that are more detailed than the typical 'artificial, forest, cropland, grasland, water' type classes, so navigating the trade-off between accuracy and detail must be done.
@@ -67,7 +64,7 @@ Land cover is important.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figs_05/fig_methodology.pdf}
-    \caption{Caption}
+    \caption{The methodology of this research.}
     \label{fig:05_methodology}
 \end{figure}
 
@@ -100,13 +97,13 @@ We randomly selected up to four NUTS2 area/year combinations each country.
 % https://docs.google.com/spreadsheets/d/1UJrbdGJgrXlW_WnSoDVIhf68dz8XoiWrZW6WVeR5lPw/edit#gid=1654270911
 For some classes, either no area estimates or no training data was found. This required us to merge some classes, and aggregate others to a higher level in the hierarchical legend. Table \ref{tab:05_legend_harmonization} shows which LUCAS classes were aggregated and merged, and for what reason.
 
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
+
 \begin{table}[]
-\label{tab:05_legend_harmonization}
 % https://docs.google.com/spreadsheets/d/1UJrbdGJgrXlW_WnSoDVIhf68dz8XoiWrZW6WVeR5lPw/edit#gid=213241018
-\begin{tabular}{l{2cm}lll}
-LUCAS land cover class                        & Training data source    & Used land cover class                                 & Reason for aggregation/omission                           \\
+\resizebox{0.8\textwidth}{!}{% Resize table to fit within page width
+
+\begin{tabular}{llll}
+\textbf{LUCAS land cover class}                        & \textbf{Training data source}   & \textbf{Used land cover class}                                 & \textbf{Reason for change}\\
 A11: Buildings with one to three floors       & \multirow{2}{*}{corine} & \multirow{2}{*}{A10: Roofed built-up areas}           & No training data                                          \\
 A12: Buildings with more than three floors    &                         &                                                       & No training data                                          \\
 \multirow{2}{*}{A13: Greenhouses}             & openstreetmap           & \multirow{2}{*}{A13: Greenhouses}                     &                                                           \\
@@ -130,7 +127,7 @@ B23: Other root crops                         & eurocrops               & B23: O
 B31: Sunflower                                & eurocrops               & B31: Sunflower                                        &                                                           \\
 B32: Rape and turnip rape                     & eurocrops               & B32: Rape and turnip rape                             &                                                           \\
 B33: Soya                                     & eurocrops               & B33: Soya                                             &                                                           \\
-B34: Cotton                                   & eurocrops               & \multirow{2}{*}{B35: Other fibre and olaginous crops} & No training data in eurocrops, despite presence in legend \\
+B34: Cotton                                   & eurocrops               & \multirow{2}{*}{B35: Other fibre and olaginous crops} & No training data\\
 B35: Other fibre and olaginous crops          & eurocrops               &                                                       &                                                           \\
 B36: Tobacco                                  & eurocrops               & B36: Tobacco                                          &                                                           \\
 B37: Other non-permanent industrial crops     & eurocrops               & B37: Other non-permanent industrial crops             &                                                           \\
@@ -168,7 +165,7 @@ D20: Shrubland without tree cover             & corine                  & D20: S
 E10: Grassland with sparse tree/shrub cover   &                         & \multirow{4}{*}{E00: Grassland}                       & No training data                                          \\
 E20: Grassland without tree/shrub cover       & eurocrops               &                                                       & No area estimates                                         \\
 E20: Grassland without tree/shrub cover       & corine                  &                                                       & No area estimates                                         \\
-E30: Spontaneously re-vegetated surfaces      &                         &                                                       & no training data                                          \\
+E30: Spontaneously re-vegetated surfaces      &                         &                                                       & No training data                                          \\
 F10: Rocks and stones                         & \multirow{3}{*}{corine} & \multirow{3}{*}{F00: Bare land and lichens/moss}      & No area estimates                                         \\
 F20: Sand                                     &                         &                                                       & No area estimates                                         \\
 F40: Other bare soil                          &                         &                                                       & No area estimates                                         \\
@@ -186,28 +183,34 @@ H21: Salt marshes                             &                         & H21: S
 H22: Salines and other chemical deposits      &                         & H22: Salines and other chemical deposits              &                                                           \\
 H23: Intertidal flats                         &                         & H23: Intertidal flats                                 &                                                          
 \end{tabular}
+}
+\caption{Overview of LUCAS classes, and how they were aggregated to the legend used in this work. Each entry also shows which datasets were used to extract training data for the class, and why any aggregations were made. 'No training data' indicates that sources of unambiguous polygon data were not found, and 'No area estimates' means that Eurostat does not publish area estimates at the required thematic level.}
+\label{tab:05_legend_harmonization}
 \end{table}
 
 \subsection{Training and Calibration Samples}
-We extracted polygons from CORINE, EuroCrops and OpenStreetmap. Table~\ref{tab:05_sources} shows the training data source per LUCAS class.
+We extracted polygons from CORINE, EuroCrops and OpenStreetmap. Table~\ref{tab:05_legend_harmonization} shows the training data source per LUCAS class. We randomly sampled points from polygons. One point minimum, one extra point per 9 30m pixels of polygon surface, to a maximum of 20 points per polygon.
+We filtered the samples with Copernicus HRL layers and OpenStreetmap building and roads data. Any sample that did not meet the following criteria was removed from the dataset.
+\begin{enumerate}
+    \item \textit{A10: Roofed built up areas} without buildings according to OSM or not impervious according to Copernicus Imperviousness
+    \item \textit{A20: Artificial non-built up areas} with buildings or low Copernicus imperviousness
+    \item Non-\textit{Artificial} classes with OSM buildings or high Copernicus imperviousness
+    \item \textit{C00: Woodland} classes without Copernicus Tree Cover
+    \item \textit{D10: Shrubland} with sparse tree cover with Copernicus Tree Cover below 1\% or above 75\%
+    \item \textit{D20: Shrubland} without tree cover with Copernicus Tree Cover above 1\%.
+    \item \textit{E00: Grassland} without Copernicus Grassland or with Copernicus Tree Cover above 10\%
+    \item \textit{F00: Bare land} and lichens/moss with Copernicus Grass or Tree cover
+    \item \textit{G00: Water areas} with Copernicus Grassland or Tree Cover
+    \item Non-\textit{Water} classes with Copernicus Permanent Water
+    \item \textit{H00: Wetlands} classes without Copernicus temporary wetness (excluding \textit{H23: Intertidal Flats})
+\end{enumerate}
 
-We randomly sampled points from polygons. One point minimum, one extra point per X square meters of polygon surface, to a maximum of X points per polygon.
-
-We filtered the samples with Copernicus HRL layers and OpenStreetmap building and roads data. 
-
-We split the samples in training and calibrations samples with a 0.75/0.25 split.
-
-
+We split the polygon-sampled points into a training and calibration set with a 0.75/0.25 split.
 
 \subsection{Land Cover Classification}
 We trained a LightGBM gradient boosting model \citep{ke2017lightgbm} on the training samples.
 We predicted land cover probabilities on calibration points for all 53 LUCAS land cover classes and derived hard class maps using maximum probability assignment. For each calibration point, we stored the probability of the assigned class and the margin of victory.
 We then applied the IMP algorithm on the calibration points, using the class distribution of the calibration points as a proxy of the area estimate.
-
-% this should be on the calibration points from each NUTS2 area separately, using that area's area estimate.
-
-
-
 
 \section{Results}
     \subsection{Training data}
@@ -216,20 +219,31 @@ We then applied the IMP algorithm on the calibration points, using the class dis
     
 \subsection{Validation data}
 
-    Sampling one combination of a NUTS2 area and LUCAS survey year per country yielded 25 regions. Iteratively adding more area/year combinations to guarantee at least 30 LUCAS points per class in the validation dataset resulted in 17 more, with 9 of them being added to guarantee coverage of \textit{Intertidal Flats}, 3 for \textit{Strawberries}, and 3 for \textit{Tobacco}. This resulted in a total of 52 areas with at least 300 LUCAS observations, containing a total of 66994 observations. Figure~\ref{fig:05_lucas_aoi} shows all areas that were selected.
+    Sampling one combination of a NUTS2 area and LUCAS survey year per country yielded 25 regions. Iteratively adding more area/year combinations to guarantee at least 30 LUCAS points per class in the validation dataset resulted in 17 more, with 9 of them being added to guarantee coverage of \textit{Intertidal Flats}, 3 for \textit{Strawberries}, and 3 for \textit{Tobacco}. This resulted in a total of 52 areas with at least 300 LUCAS observations, containing a total of 66994 observations (See table \ref{tab:05_lucas_nuts}. Figure~\ref{fig:05_lucas_aoi} shows all areas that were selected.
+
+    \begin{table}[]
+    \begin{tabular}{lll}
+    Year & NUTS2 areas & LUCAS points \\
+    2012 & 7           & 7.468        \\
+    2015 & 16          & 20.407       \\
+    2018 & 29          & 39.119      
+    \end{tabular}
+    \caption{Sampled NUTS2 areas and LUCAS observations selected as validation data, separated per survey year.}
+    \label{tab:05_lucas_nuts}
+    \end{table}
     
     \begin{figure}[h]
-        \centering
-        \includegraphics[width=\textwidth]{figs_05/fig_lucas_aoi.png}
-        \caption{LUCAS points in sampled NUTS2 areas, used for validation of all land cover maps}
-        \label{fig:05_lucas_aoi}
+    \centering
+    \includegraphics[width=\textwidth]{figs_05/fig_lucas_aoi.png}
+    \caption{LUCAS points in sampled NUTS2 areas, used for validation of all land cover maps}
+    \label{fig:05_lucas_aoi}
     \end{figure}
     
     \begin{figure}[h]
-        \centering
-        \includegraphics[width=\textwidth]{figs_05/fig_lucas_aoi_counts.png}
-        \caption{Number of LUCAS points per LUCAS class used to validate the land cover maps, colored based on their level 1 class.}
-        \label{fig:05_lucas_aoi_counts}
+    \centering
+    \includegraphics[width=\textwidth]{figs_05/fig_lucas_aoi_counts.png}
+    \caption{Number of LUCAS points per LUCAS class used to validate the land cover maps, colored based on their level 1 class.}
+    \label{fig:05_lucas_aoi_counts}
     \end{figure}
 
 \subsection{Land Cover Modeling}
@@ -268,45 +282,56 @@ We then applied the IMP algorithm on the calibration points, using the class dis
         \centering
         \includegraphics[width=\textwidth]{figs_05/fig_hierarchical_confusion_matrix_calib.png}
         \caption{Confusion matrix of the calibration points classified by IMP, normalized based on true class quantities. Red squares mean that the true class (x-axis) was often incorrectly predicted as the predicted class (y-axis)The grey dashed lines indicate which classes belong to the same level 2 class in the hierarchical legend. The black lines indicate level 1 class membership.}
-        \label{fig:05_confusion_matrix}
+        \label{fig:05_confusion_matrix_calib}
     \end{figure}
 
-    \begin{figure}
+    \begin{figure}[H]
         \centering
-        \includegraphics[width=\textwidth]{figs_05/fig_hierarchical_confusion_matrix_calib.png}
+        \includegraphics[width=\textwidth]{figs_05/fig_hierarchical_confusion_matrix_lucas.png}
         \caption{Confusion matrix of the LUCAS points classified by IMP, normalized based on true class quantities. Red squares mean that the true class (x-axis) was often incorrectly predicted as the predicted class (y-axis)The grey dashed lines indicate which classes belong to the same level 2 class in the hierarchical legend. The black lines indicate level 1 class membership.}
-        \label{fig:05_confusion_matrix}
+        \label{fig:05_confusion_matrix_lucas}
     \end{figure}
 
     \subsection{Selective Hierarchical Classification}
 
-        Figure~\ref{fig:05_comparison_metrics} shows the highest predicted probability and the margin of victory for maximum probability classification, and the classification iteration for IMP.
+        Figure~\ref{fig:05_comparison_metrics_calib} shows the highest predicted probability and the margin of victory for maximum probability classification, and the classification iteration for IMP.
         
-        \begin{figure}[H]
+        \begin{figure}
             \centering
-            \includegraphics[width=\linewidth]{figs_05/fig_calibration.png}
-            \caption{Caption}
-            \label{fig:05_comparison_metrics}
+            \includegraphics[width=\linewidth]{figs_05/fig_calibration_calib.png}
+            \caption{Level of correctness of land cover classification on calibration points per level in the hierarchy in ten groups based on highest probability, margin of victory, and IMP classification iteration. 
+            Blue indicates the predictions were correct at the third level of the legend; light blue that they were not correct at level 3 but were correct at level 2; the orange part indicates predictions that were only correct at level 1, and red indicates predictions that were completely incorrect.
+            The top graphs show the proportion per group, the middle graphs show the cumulative correctness, and the bottom graphs show the amount of points that fall within each group.}
+            \label{fig:05_comparison_metrics_calib}
+        \end{figure}
+
+         \begin{figure}
+            \centering
+            \includegraphics[width=\linewidth]{figs_05/fig_calibration_lucas.png}
+            \caption{Level of correctness of land cover classification on LUCAS points per level in the hierarchy in ten groups based on highest probability, margin of victory, and IMP classification iteration. 
+            Blue indicates the predictions were correct at the third level of the legend; light blue that they were not correct at level 3 but were correct at level 2; the orange part indicates predictions that were only correct at level 1, and red indicates predictions that were completely incorrect.
+            The top graphs show the proportion per group, the middle graphs show the cumulative correctness, and the bottom graphs show the amount of points that fall within each group.}
+            \label{fig:05_comparison_metrics_lucas}
         \end{figure}
 
 \section{Discussion}
 
-    \subsection{How to use?}
-        selective classification exists; it leaves parts empty. Is it better to have something than nothing?
-        how to visualize these maps?
-        how to use hierarchical maps in GIS software?
-            help focus on areas that need to be studied/sampled better
-        how to use their data?
-            combine different level predictions into ensembles
+    % \subsection{How to use?}
+    %     Selective hierarchical classification improves upon selective classification by maximizing the amount of pixels with information, and optimizing the balance between accuracy and detail. This gives researchers and policy-makers a better idea of what they 
+    %     selective classification exists; it leaves parts empty. Is it better to have something than nothing?
+    %     how to visualize these maps?
+    %     how to use hierarchical maps in GIS software?
+    %         help focus on areas that need to be studied/sampled better
+    %     how to use their data?
+    %         combine different level predictions into ensembles
         
-        
-
     \subsection{Area estimates and model bias}
 
         When we applied IMP to classify the calibration points, we used the class proportion of the points themselves as a proxy for the area estimate. The resulting hard-class classification had identical precision and recall for each class. The class proportion of the calibration points can be considered a 'perfect' area estimate because it is a count, and not an estimation by statistics. \citet{witjes2024iterative} noted that precision and recall were more similar in IMP-produced hard class maps than in maximum probability assignment maps, but they were not identical, as in our calibration results in this work. The results from that work were based on area estimates from Eurostat, which have variance and are not perfectly accurate. This suggests that more accurate area estimates might result in proportional maps that have a closer class-wise link between precision and accuracy. If this is correct, IMP can be used to quantify how representative a validation dataset is of its study area.
-        
-    \subsection{Covariates}
-        The current version of the model only uses Landsat bands and no spectral indices. It is likely that its performance will be much higher when this is implemented. 
-
+    
     \subsection{Legend}
         We lost a lot of detail in our legend because we needed 1) training data, 2) area estimates, and 3) validation points. We had training data for a lot of water \& bare land subclasses. It would be good if Eurostat made area estimates for all LUCAS land cover classes; we could have included them.
+
+        It is also possible to omit using area estimates altogether and instead use the LUCAS class proportions directly. This would allow us to not only leverage the full 74-class LUCAS land cover legend, but also its land \textbf{use} legend. This would make it possible to separate grassland into pastures, natural grass, airport grassland, and many more classes. It would be more difficult to validate the proportionality of such maps without collaboration with Eurostat statisticians, however. 
+
+        
