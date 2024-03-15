@@ -24,7 +24,7 @@ This chapter is based on:
 
     \subsection{Where do you get data?}
 
-        It's important to use separate sets for training and validating models. THe LUCAS points are the best available validations amples for Europe because they have a rigorous sampling deesign, cover a wide range of land cover classes, and include data from multiple years \citep{dandrimont2020harmonised,dandrimont2021lucas,venter2022global}. The CORINE Land Cover dataset is a useful source of training data \citep{witjes2022spatiotemporal,witjes2024iterative}, but it lacks many classes at the thematic depth of the LUCAS legend, especially regarding crop types.
+        It's important to use separate sets for training and validating models. The LUCAS points are the best available validations samples for Europe because they have a rigorous sampling design, cover a wide range of land cover classes, and include data from multiple years \citep{dandrimont2020harmonised,dandrimont2021lucas,venter2022global}. The CORINE Land Cover dataset is a useful source of training data \citep{witjes2022spatiotemporal,witjes2024iterative}, but it lacks many classes at the thematic depth of the LUCAS legend, especially regarding crop types.
         The EuroCrops dataset provides many of these classes at a level even more fine-grained than LUCAS itself \citep{schneider2023eurocrops}. Lastly, the volunteered geographical information of OpenStreetMap can be mined for land cover polygons \citep{witjes2022spatiotemporal}, especially if they relate to anthropogenic land cover types [CITE?]. 
         
     \subsection{Detail and accuracy}
@@ -39,7 +39,7 @@ This chapter is based on:
 
     \subsection{Prediction uncertainty}
         Prediction uncertainty = the chance that a specific prediction is correct.
-        You can use heuristics but they don't give a statistical guarantee. Examples are the predicted probabilities, especially if they are well-calibrated \citep{niculescu2005predicting}, the margin of victory (the difference between the probabilities of the highest and second highest class) \citep{calderon-loor2021high}, and model variance from ensembles of classifiers \citep{witjes2022spatiotemporal}. \citet{witjes2024iterative} found indications of a relationship between a prediction's certainty and the iteration at which it is classified by IMP.
+        You can use heuristics but they don't give a statistical guarantee. Examples are the predicted probabilities, especially if they are well-calibrated \citep{niculescu2005predicting}, the margin of victory (the difference between the probabilities of the highest and second highest class) \citep{calderon2021high}, and model variance from ensembles of classifiers \citep{witjes2022spatiotemporal}. \citet{witjes2024iterative} found indications of a relationship between a prediction's certainty and the iteration at which it is classified by IMP.
 
     \subsection{Selective classification}
         Selective classification, also known as reject option classification, introduces a mechanism within classification models to abstain from making a prediction when the model's confidence is below a certain threshold. This approach aims to enhance the overall reliability and accuracy of the model by only making decisions when the model is sufficiently certain. \citet{geifman2017selective} emphasize the potential of selective classification in improving the safety and robustness of machine learning applications, particularly in critical areas such as medical diagnosis and autonomous driving. By implementing a reject option, models can effectively reduce the risk of making incorrect predictions at the cost of not making a decision in all cases. This trade-off is particularly crucial in scenarios where the cost of an error far outweighs the benefit of a correct but uncertain prediction. The selective classification framework thus provides a pragmatic approach to managing uncertainty and enhancing decision quality in machine learning systems.
@@ -221,7 +221,7 @@ We then applied the IMP algorithm on the calibration points, using the class dis
 
     Sampling one combination of a NUTS2 area and LUCAS survey year per country yielded 25 regions. Iteratively adding more area/year combinations to guarantee at least 30 LUCAS points per class in the validation dataset resulted in 17 more, with 9 of them being added to guarantee coverage of \textit{Intertidal Flats}, 3 for \textit{Strawberries}, and 3 for \textit{Tobacco}. This resulted in a total of 52 areas with at least 300 LUCAS observations, containing a total of 66994 observations (See table \ref{tab:05_lucas_nuts}. Figure~\ref{fig:05_lucas_aoi} shows all areas that were selected.
 
-    \begin{table}[]
+    \begin{table}[H!]
     \begin{tabular}{lll}
     Year & NUTS2 areas & LUCAS points \\
     2012 & 7           & 7.468        \\
@@ -232,14 +232,14 @@ We then applied the IMP algorithm on the calibration points, using the class dis
     \label{tab:05_lucas_nuts}
     \end{table}
     
-    \begin{figure}[h]
+    \begin{figure}[H!]
     \centering
     \includegraphics[width=\textwidth]{figs_05/fig_lucas_aoi.png}
-    \caption{LUCAS points in sampled NUTS2 areas, used for validation of all land cover maps}
+    \caption{LUCAS points in sampled NUTS2 areas, used for validation of all land cover maps, simplified to the 8 classes at level 1 of the LUCAS land cover legend.}
     \label{fig:05_lucas_aoi}
     \end{figure}
     
-    \begin{figure}[h]
+    \begin{figure}[H!]
     \centering
     \includegraphics[width=\textwidth]{figs_05/fig_lucas_aoi_counts.png}
     \caption{Number of LUCAS points per LUCAS class used to validate the land cover maps, colored based on their level 1 class.}
@@ -264,7 +264,7 @@ We then applied the IMP algorithm on the calibration points, using the class dis
     \label{tab:05_calibration_accuracy}
     \end{table}
 
-    \begin{table}[]
+    \begin{table}[H!]
     \begin{tabular}{lrrrr}
     \textbf{Method} & \multicolumn{1}{l}{\textbf{Level}} & \multicolumn{1}{l}{\textbf{Precision}} & \multicolumn{1}{l}{\textbf{Recall}} & \multicolumn{1}{l}{\textbf{F1}} \\
     MPA & 1 & \textbf{0.66} & 0.57 & 0.58 \\
@@ -278,7 +278,7 @@ We then applied the IMP algorithm on the calibration points, using the class dis
     \label{tab:05_calibration_accuracy}
     \end{table}
 
-    \begin{figure}
+    \begin{figure}[H]
         \centering
         \includegraphics[width=\textwidth]{figs_05/fig_hierarchical_confusion_matrix_calib.png}
         \caption{Confusion matrix of the calibration points classified by IMP, normalized based on true class quantities. Red squares mean that the true class (x-axis) was often incorrectly predicted as the predicted class (y-axis)The grey dashed lines indicate which classes belong to the same level 2 class in the hierarchical legend. The black lines indicate level 1 class membership.}
@@ -290,6 +290,50 @@ We then applied the IMP algorithm on the calibration points, using the class dis
         \includegraphics[width=\textwidth]{figs_05/fig_hierarchical_confusion_matrix_lucas.png}
         \caption{Confusion matrix of the LUCAS points classified by IMP, normalized based on true class quantities. Red squares mean that the true class (x-axis) was often incorrectly predicted as the predicted class (y-axis)The grey dashed lines indicate which classes belong to the same level 2 class in the hierarchical legend. The black lines indicate level 1 class membership.}
         \label{fig:05_confusion_matrix_lucas}
+    \end{figure}
+
+    \subsubsection{Spatiotemporal consistency}
+
+        Table\@~\ref{tab:f1_space_time} compares the weighted F1-scores across the 51 different NUTS2 areas and 3 years. The accuracy of the model was more consistent through time than through space, with standard deviations across years being less than half the standard deviations across NUTS2 areas. Fig.\@~\ref{fig:f1_lucas_aoi} shows that areas farther away from France were classified less accurately, and Fig.\@~\ref{fig:boxplot_f1_year_lvl} shows that predictions on the 16 areas from 2015 were more consistent than the 7 areas in 2012 and the 29 areas in 2018.
+        ref{fig:}
+
+        \begin{table}[]
+        \begin{tabular}{llll}
+        Comparison & Level & Mean & Std \\
+        Years & 1 & 0.562 & 0.071 \\
+         & 2 & 0.372 & 0.045 \\
+         & 3 & 0.317 & 0.040 \\
+        NUTS2 areas & 1 & 0.590 & 0.176 \\
+         & 2 & 0.386 & 0.181 \\
+         & 3 & 0.332 & 0.187
+        \end{tabular}
+        \caption{Comparison of F1 consistency through time and space: Mean and standard deviation of F1-scores of testing model predictions on the LUCAS points from different NUTS2 areas and years. Note that the standard deviation across years is consistently less than half the standard deviation across NUTS2 areas.}
+        \label{tab:f1_space_time}
+        \end{table}
+        
+    \begin{figure}
+    \begin{subfigure}[b]{width=0.48\linewidth}
+        \centering
+        \includegraphics[width=1\linewidth]{figs_05/f1_lvl1.png}
+        \caption{F1-score at level 1 (8 classes)}
+        \label{fig:f1_lvl1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{width=0.48\linewidth}
+        \centering
+        \includegraphics[width=1\linewidth]{figs_05/f1_lvl3.png}
+        \caption{F1-score at level 3 (53 classes)}
+        \label{fig:f1_lvl1}
+    \end{subfigure}
+    \ref{fig:f1_lucas_aoi}
+    \caption{Comparison of F1-score across the different NUTS2 areas included in this study. Note that the areas in Eastern Europe were generally classified less accurately than those in Western Europe, and more specifically, near France.}
+    \end{figure}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{figs_05/boxplot_f1_year_lvl.png}
+        \caption{Boxplot of weighted F1-scores of all NUTS2/year combinations, separated by survey year and by legend level. Note that aggregating the predictions of 2015 to level 1 caused a relatively larger gain in accuracy than for 2012.}
+        \label{fig:boxplot_f1_year_lvl}
     \end{figure}
 
     \subsection{Selective Hierarchical Classification}
@@ -330,7 +374,7 @@ We then applied the IMP algorithm on the calibration points, using the class dis
         When we applied IMP to classify the calibration points, we used the class proportion of the points themselves as a proxy for the area estimate. The resulting hard-class classification had identical precision and recall for each class. The class proportion of the calibration points can be considered a 'perfect' area estimate because it is a count, and not an estimation by statistics. \citet{witjes2024iterative} noted that precision and recall were more similar in IMP-produced hard class maps than in maximum probability assignment maps, but they were not identical, as in our calibration results in this work. The results from that work were based on area estimates from Eurostat, which have variance and are not perfectly accurate. This suggests that more accurate area estimates might result in proportional maps that have a closer class-wise link between precision and accuracy. If this is correct, IMP can be used to quantify how representative a validation dataset is of its study area.
     
     \subsection{Legend}
-        We lost a lot of detail in our legend because we needed 1) training data, 2) area estimates, and 3) validation points. We had training data for a lot of water \& bare land subclasses. It would be good if Eurostat made area estimates for all LUCAS land cover classes; we could have included them.
+        We lost much detail in our legend because we needed 1) training data, 2) area estimates, and 3) validation points. We had training data for a lot of water \& bare land subclasses. It would be good if Eurostat made area estimates for all LUCAS land cover classes; we could have included them.
 
         It is also possible to omit using area estimates altogether and instead use the LUCAS class proportions directly. This would allow us to not only leverage the full 74-class LUCAS land cover legend, but also its land \textbf{use} legend. This would make it possible to separate grassland into pastures, natural grass, airport grassland, and many more classes. It would be more difficult to validate the proportionality of such maps without collaboration with Eurostat statisticians, however. 
 

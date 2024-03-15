@@ -1,15 +1,13 @@
 # Propositions
 ## This thesis
-1. You can make accurate, reliable and useful maps using only open data
-2. (Trans)national organizations should put more effort in harmonizing different systems that quantify land cover and land use. 
+1. It is possible to make accurate, detailed maps using only open data (this thesis)
+2. (Trans)national organizations should put more effort in harmonizing different systems that quantify land cover and land use (this thesis)
 ## Science in general
-3. PhD candidates should take every opportunity to exchange experiences to maintain healthy perspectives and boundaries.
-4. [Something about project pragmatism harming scientific rigor]
-5. [Something about needing projects to do science]
-6. Many of the acronyms proposed by scientists and institutions are very bad while ‘hogging’ catchy words for more dedicated and authentic acronym-crafters.
+3. The mental health and career decisions of PhD students would benefit greatly from exchanging their experiences as much and as openly as possible.
+4. Scientists are terrible at acronyms and should be held accountable for giving bad acronyms to projects and concepts.
 ## Society
-7. Hierarchy - while beneficial for land cover classification - should be minimized in society
-8. For-profit corporations should not be trusted as the stewards of any kind of truth.
+5. Hierarchy - while beneficial for land cover classification - is disastrous to society
+6. For-profit corporations cannot be trusted as the stewards of any kind of truth.
 
 # Thoughts
 Open data is not equally distributed, it has some characteristics that must be overcome.
