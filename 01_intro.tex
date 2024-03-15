@@ -290,8 +290,6 @@ To what extent does training data from multiple times and places improve the acc
 How does the number and type of classes in a legend affect the accuracy of land cover classification?
 \item % Ensuring Land Cover Maps Match Area Estimates Without Sacrificing Accuracy: 
 What is the effect of enforcing correct class proportions on map accuracy?
-\item % Obtaining Useful Prediction Uncertainty Estimates: 
-Which uncertainty metric is most useful for optimizing the trade-off between detail and accuracy?
 \end{enumerate}
 
 \section{Thesis Outline}
@@ -318,11 +316,3 @@ The research questions posed in the previous section are answered through four r
 
 \fullcite{witjes2024iterative} 
 (In review)
-
-\textbf{Chapter 5} builds on the methods and findings of the previous chapters. 
-Firstly, it presents a workflow to create larger and more detailed training datasets from multiple open data sources that are compatible with the hierarchical LUCAS land cover legend. 
-Secondly, it investigates to what extent iteration classification uncertainty (ICU) can be used to provide reliable pixel-based uncertainty for land cover maps. It does this by creating high thematic resolution land cover maps of several NUTS2 regions across Europe, using Eurostat area estimates, training data extracted and harmonized from CORINE and EuroCrops, and validating them with LUCAS land cover points. 
-The pixel-based error estimates are then used to aggregate uncertain predictions to more general classes and guarantee a baseline level of accuracy at the cost of some thematic detail. Different heuristics of prediction uncertainty are compared in their reliability to guarantee an error rate and the extent to which thematic detail must be sacrificed.
-
-\fullcite{witjes2024hierarchical}
-(Work in progress)
