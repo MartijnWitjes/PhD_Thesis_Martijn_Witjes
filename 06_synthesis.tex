@@ -10,8 +10,8 @@ This thesis, especially in its first two chapters, describes a relatively applie
     \item 2016-2019 quarterly/annual Sentinel-2 composites at 10-30m resolution, depending on the band (on \url{stac.ecodatacube.eu});
     \item Input dataset for gap filling and land cover mapping using the eumap library \citep{parente2020input};
     \item An Ensemble Digital Terrain Model of Europe at 30m resolution \citep{hengl2021continental}
-    \item 2000-2019 annual Land Use / Land Cover maps of Europe at 30m resolution and 43 classes \citep{parente2021continental}
-    \item Five annual land cover maps of five European countries (Belgium, Czechia, Germany, Luxembourg and The Netherlands) at 30m resolution and 8 classes, whose class proportions match Eurostat area estimates \citep{witjes2024iterative}
+    \item 2000-2019 annual Land Use / Land Cover maps of Europe at 30m resolution and 43 classes \citep{parente2021continental};
+    \item Five annual land cover maps of five European countries (Belgium, Czechia, Germany, Luxembourg and The Netherlands) at 30m resolution and 8 classes, whose class proportions match Eurostat area estimates \citep{witjes2024iterative_data}.
 \end{enumerate}
 The third chapter of the thesis describes relatively more innovative attempts to model land cover in a way that is faithful to area estimates. The proposed algorithm (IMP) may have further uses and implications, these will also be discussed in this synthesis chapter. It is divided into two sections: the first summarizes contributions to the research objectives formulated in Section~\ref{sec:research_objectives} and the second section reflects on these contributions, offering perspectives on future research opportunities. 
 
@@ -27,7 +27,7 @@ The third chapter of the thesis describes relatively more innovative attempts to
     
             Our land cover experiments in Chapter\@~\ref{cha:chapter2} show that random forest models trained on the largest combination of datasets achieved the highest classification accuracy during cross-validation and that models trained on Landsat and DTM data achieved the highest accuracy on test data. This is in line with other work reporting that including auxiliary variables in the feature space can improve performance \citep{zhu2016optimizing, hurskainen2019auxiliary, hosseiny2022urban, santos2012multiscale}.
 
-            Chapter\@~\ref{cha:chapter2} also details the creation of an Ensemble DTM which was more accurate than its four source datasets, with a RMSE 6.544 vs RMSE of 8.451-9.900. This proves that in the case of continuous variables, different versions or representations of that variable can be used as input for a machine learning algorithm, and that the predictions by this algorithm can be more accurate.
+            Chapter\@~\ref{cha:chapter2} also details the creation of an Ensemble DTM which was more accurate than its four source datasets, with a RMSE 6.544 vs RMSE of 8.451-9.900. This demonstrates that in the case of continuous variables, different versions or representations of that variable can be used as input for a machine learning algorithm, and that the predictions by this algorithm can be more accurate.
             
             In Chapter\@~\ref{cha:chapter3}, the top 15 most important variables of the ensemble land cover model contain data from six sources: several bands from two satellite programs (Landsat and MODIS), long-term probability of surface water occurrence \citep{pekel2016high}, geometric temperature \citep{kilibarda2014spatio}, multiple DTM variables, and the cost distance to the nearest coastline (see Figure~\ref{fig:variable_importance}). 
     
@@ -43,10 +43,7 @@ The third chapter of the thesis describes relatively more innovative attempts to
             
             The time range represented by a single map has different implications for the accuracy of different classes. In Chapters\@~\ref{cha:chapter3}\@~and\@~\ref{cha:chapter4}, we chose to make annual maps, and in Chapter\@~\ref{cha:chapter3}, we made annual maps for each consecutive year. This does not work equally well for each class. For example, mapping classes that only periodically cover a certain patch of ground, such as crops, or areas that are prone to different water levels, such as flood plains. At a high thematic resolution, this problem may be minimal: a change of crops due to crop rotation will still be cropland, but when mapping different crops, this will quickly become problematic. Another example from Chapter\@~\ref{cha:chapter3} is \textit{Burnt areas}, which was among the least accurately mapped classes. This is likely due to the fact that these areas don't stay \textit{Burnt} for a long time.
 
-            \textbf{Class balance}: collecting land cover observations from multiple sources requires consideration of the quality and type of each component dataset. We sampled points from polygons from different datasets, which all have their own problems. For instance, CORINE's large minimal mapping unit can lead to sampled points of an urban area falling within a garden, and therefore being a bad example of a 'buildings' class. Similarly, some classes with small or narrow patches (e.g., roads) can be underrepresented in such datasets, which leads to underrepresentation in the resulting training set. In volunteered geographical information, errors can come from different sources.
-            For example, when collecting \textit{Buildings} data from OpenStreetMap for Chapter\@~\ref{cha:chapter3}, we encountered buildings labeled in many different terms, including \textit{residential}, personal names, \textit{yes}, and, perplexingly, \textit{no}.
-
-            In Chapter\@~\ref{cha:chapter3}, we did not pay any attention to this issue and selected one point per polygon, which led to some classes being drastically underrepresented and more inaccurately classified than expected, even with a large legend of heterogeneous combinations of land use and land cover classes such as CORINE. In chapters 2 and 4, we only used the LUCAS points because the emphasis was on the benefits of combining EO data sources and the effects of the IMP algorithm, respectively. In future research, a logical improvement to the point sample extraction from polygons will be to sample several points from each polygon, and having the number be dependent on the size and land cover class of the polygon.
+            
 
         In conclusion, integrating large time-series and static Earth observation datasets into Analysis-Ready Data can enhance land cover classification accuracy. However, challenges such as spatial resolution discrepancies, temporal resolution constraints, and class balance issues present hurdles that must be addressed to make full use of their potential.
             
@@ -61,18 +58,27 @@ The third chapter of the thesis describes relatively more innovative attempts to
         In particular, our map of 2017 was validated on the points collected by \citep{jenerowicz2021validation} to validate the S2GLC maps made by \citet{malinowski2020automated}, and achieved a similar accuracy without having training data from 2017 and operating on a lower spatial resolution.
 
         \subsubsection{Dealing with bias}
-        Combining training data from several locations and times can introduce bias in the model because the proportion of classes might not match the proportions on the ground in the mapped area in a given time frame. Our results in Chapter\@~\ref{cha:chapter3} show that the ensemble model was much less accurate in Southern Europe than in Central and Northern Europe. We found a weak but significant positive correlation between the number of training samples and the F1-score in 30~km tiles across Europe (see Figs.\@~\ref{fig:cv_spatial}\@~and\@~\ref{fig:tiles_support_vs_v1}. We did not analyze whether this was due to low precision or recall, but it is likely due to differences in proportions of locally abundant classes, such as \textit{Sclerophyllous vegetation}, which are mostly found around the Mediterranean, played a role in lowering the accuracy where they occur more than the European average. On a large scale, the spatial distribution of its probabilities matches its geographical spread quite well (See Fig.\@~\ref{fig:sclerophyllous}) but this class was hardly predicted in the hard-class map, being frequently overshadowed by \textit{Coniferous forest} and other vegetation types.  
+        
+        Combining training data from multiple sources and a wide range of locations and times can introduce bias in the model because the proportion of classes might not match the proportions on the ground in the mapped area in a given time frame. 
+        
+        Collecting land cover observations from multiple sources requires consideration of the quality and type of each component dataset. which all have their own problems. For instance, we tried to reproduce the CORINE land cover legend at 30~m resolution, but some classes, such as \textit{urban fabric}, don't directly translate to \textit{buildings} at CORINE's large minimal mapping unit. This can lead to sampled points of an urban area falling within a garden, and therefore being a bad example of a 'buildings' class. Furthermore, some classes with small or narrow patches (e.g., roads) can be relatively rare at the scale of CORINE, which leads to under-representation in the resulting 30~m training set. 
+
+        In Chapter\@~\ref{cha:chapter3}, we did not pay any attention to this issue and selected one point per polygon, which led to some classes being drastically underrepresented and more inaccurately classified than expected, even with a large legend of heterogeneous combinations of land use and land cover classes such as CORINE. In chapters 2 and 4, we only used the LUCAS points because the emphasis was on the benefits of combining EO data sources and the effects of the IMP algorithm, respectively. In future research, a logical improvement to the point sample extraction from polygons will be to sample several points from each polygon, and having the number be dependent on the size and land cover class of the polygon. The scarcity of narrow and small-polygon classes is best dealt with by integrating more different datasets, such as OpenStreetMap for roads, and EUBUCCO for buildings \citep{milojevic2023eubucco}.
+        
+        In volunteered geographical information, errors can come from different sources. For example, when collecting \textit{Buildings} data from OpenStreetMap for Chapter\@~\ref{cha:chapter3}, we encountered buildings labeled in many different terms, including \textit{residential}, personal names, \textit{yes}, and, perplexingly, \textit{no}. To correctly capture the right instances of a class, these issues need to be dealt with.
+        
+        Our results in Chapter\@~\ref{cha:chapter3} show that the ensemble model was much less accurate in Southern Europe than in Central and Northern Europe. We found a weak but significant positive correlation between the number of training samples and the F1-score in 30~km tiles across Europe (see Figs.\@~\ref{fig:cv_spatial}\@~and\@~\ref{fig:tiles_support_vs_v1}. We did not analyze whether this was due to low precision or recall, but it is likely due to differences in proportions of locally abundant classes, such as \textit{Sclerophyllous vegetation}, which are mostly found around the Mediterranean, played a role in lowering the accuracy where they occur more than the European average. On a large scale, the spatial distribution of its probabilities matches its geographical spread quite well (See Fig.\@~\ref{fig:sclerophyllous}) but this class was hardly predicted in the hard-class map, being frequently overshadowed by \textit{Coniferous forest} and other vegetation types.  
 
         \begin{figure}[H]
         \centering
         \includegraphics[width=1\linewidth]{figs_06/sclerophyllous.png}
-        \caption{Predicted probabilities for Sclerophyllous vegetation}
+        \caption{Predicted probabilities for Sclerophyllous vegetation.}
         \label{fig:sclerophyllous}
         \end{figure}
         
-        The proportional mapping approach demonstrated in Chapter\@~\ref{cha:chapter4} may provide a solution to this issue. In that chapter, we mapped the 8 level 1 LUCAS land cover classes across five years and five countries, and compared the performance of models trained only on the country they mapped with the performance of a model that was trained on data from multiple European countries. We found that proportional maps based on predictions by the general model were of similar accuracy to maps based on probabilities predicted by the less biased local models. This suggests it is possible to train one model that can recognize many classes. If such a model is well-calibrated within each class and the top 5\% of predicted probabilities, for e.g., \textit{Sclerophyllous vegetation}, are indeed the most likely to actually be that class---even if they are overshadowed by more common classes---local area estimates can be used to force them to the forefront in areas where such classes are known to be more numerous. 
+        The proportional mapping approach demonstrated in Chapter\@~\ref{cha:chapter4} may provide a solution to a discrepancy between given class proportions and mapped hard-class proportions, as long as some level of meaningful probability is predicted in the right locations. In that chapter, we mapped the 8 level 1 LUCAS land cover classes across five years and five countries, and compared the performance of models trained only on the country they mapped with the performance of a model that was trained on data from multiple European countries. We found that proportional maps based on predictions by the general model were of similar accuracy to maps based on probabilities predicted by the less biased local models. This suggests it is possible to train one model that can recognize many classes. If such a model is well-calibrated within each class and the top 5\% of predicted probabilities, for e.g., \textit{Sclerophyllous vegetation}, are indeed the most likely to actually be that class---even if they are overshadowed by more common classes---local area estimates can be used to force them to the forefront in areas where such classes are known to be more numerous. 
 
-        In conclusion, leveraging training data from across a wide temporal and geographical range can strongly improve the accuracy and generalization of land cover classification. Models trained on a diverse temporal dataset consistently outperformed those limited to a single year's data, even when restricted to being trained on similarly sized datasets. Integrating training data in such ways can cause prediction biases that can strongly reduce accuracy, but these can be countered by incorporating area statistics during the hard-class classification process.
+        In conclusion, leveraging training data from across a wide temporal and geographical range can strongly improve the accuracy and generalization of land cover classification. Models trained on a diverse temporal dataset consistently outperformed those limited to a single year's data, even when restricted to being trained on similarly sized datasets. Integrating training data in such ways can cause model bias that can strongly reduce accuracy, but these can be countered by incorporating area statistics during the hard-class classification process.
         
     \subsection{How do the number and type of classes in a legend affect the accuracy of land cover classification?}
     \label{syn:rq3}
@@ -80,7 +86,7 @@ The third chapter of the thesis describes relatively more innovative attempts to
         In Chapter\@~\ref{cha:chapter3}, we found large differences in hard-class accuracy between the three different levels of the CORINE legend: At level 3, only 10 out of 43 classes were mapped with an F1-score above 0.5 (\textit{Discontinuous urban fabric, Industrial or commercial units, Non-irrigated arable land, Rice fields, Broad-leaved forest, Coniferous forest, Bare rocks, Glaciers and perpetual snow, Peat bogs, and Water bodies}). At level 2, this was 9 out of 14 classes, and at level 1, all 5 classes. At level 3, we can see a positive relationship between the number of samples ('support' in table \ref{tab:cv_accuracy_lvl3}) and the F1-score, although there are classes with many samples that still scored poorly. There are a number of error sources: 
 
         Firstly, some of these classes are 'mixed types' such as \textit{Complex cultivation patterns}, \textit{Agriculture with significant natural vegetation} and \textit{Mixed forest}. Some other classes occur mostly at a sub-pixel level, in effect being mixed classes with whatever class they border. For instance, \textit{Roads and rail networks and associated land} in Chapter\@~\ref{cha:chapter3}. Stretches of road or rail infrastructure that are wider than 30~m are relatively rare, and this type of land cover is often very close to other classes such as buildings. If there are classes in the same (level of the) legend, these classes 'compete', even if a prediction for any of them would be true. 
-        Second, some LULC classes have the same land cover, but differ in land \textbf{use}, such as \textit{Pasture}, \textit{Natural grasslands}, and \textit{Airports} (which also have significant grasslands, see Figure \ref{fig:airport_grass}). Properly distinguishing those classes may require higher temporal and spectral resolution or feature engineering to detect differences in mowing policy or grass species. 
+        Second, some LULC classes have the same land cover, but differ in land \textbf{use}, such as \textit{Pasture}, \textit{Natural grasslands}, and \textit{Airports} (which also have significant grasslands, see Figure \ref{fig:heathrow_pastures}). Properly distinguishing those classes may require higher temporal and spectral resolution or feature engineering to detect differences in mowing policy or grass species. 
 
         \subsubsection{The accuracy/detail trade-off}
         
@@ -122,7 +128,7 @@ The third chapter of the thesis describes relatively more innovative attempts to
         \centering
         \caption{Probability for \textit{Pastures}}
         \includegraphics[width=\textwidth,height=0.7\textwidth]{figs_06/heathrow_p_pastures.png}
-        \label{fig:heathrow_industrial-commercial}
+        \label{fig:heathrow_pastures}
         \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.48\textwidth}
@@ -131,8 +137,8 @@ The third chapter of the thesis describes relatively more innovative attempts to
         \includegraphics[width=\textwidth,height=0.7\textwidth]{figs_06/heathrow_lulc.png}
         \label{fig:heathrow_industrial-commercial}
         \end{subfigure}
-        \label{fig:airport_grass}
-        \caption{Comparison of CORINE Land Cover and LULC classification from Chapter\@~\ref{cha:chapter3} for Heathrow Airport, London, in 2018. Note that the LULC classification did a decent job classifying the non-residential buildings cultivated grassland that together make up the airport, but failed to assign them to the actual \textit{Airport} class.}
+        \label{fig:heathrow}
+        \caption{Comparison of CORINE Land Cover and LULC classification from Chapter\@~\ref{cha:chapter3} for Heathrow Airport, London, in 2018. Note that the LULC classification did a decent job classifying the non-residential buildings cultivated grassland that together make up the airport, but failed to assign them to the actual \textit{Airport} class: The purple is \textit{Industrial and commercial units}, while the yellow is \textit{Pastures}, and the red is \textit{Roads}}
         \end{figure}
 
     \subsection{What is the effect of enforcing correct class proportions on map accuracy?}
@@ -182,45 +188,49 @@ The third chapter of the thesis describes relatively more innovative attempts to
         \subsubsection{The Stuff of Legends}
         \label{syn:everything-legends}
 
-        In this thesis, we attempted to first (in Chapter\@~\ref{cha:chapter3}) reproduce the CORINE land cover legend, and experienced the limitations of mixed land use / land cover classes, and the contextual overlap between some classes like pastures, industrial buildings, and airports (see Fig\@~\ref{}). While land use can cause much confusion to some machine learning models, it is essential, perhaps even more so than land cover, to locate and quantify. These limitations can likely be overcome by optimizing the legend and disaggregating land use and land cover in a fine-grained way.
-
-        Fortunately, much work has already been done on this. The discussion around the ambiguities of CLC and its incompatibilities to other nomenclatures, like LUCAS, inspired the formation of the Eionet Action Group on Land monitoring in Europe (EAGLE) group, which developed a method to quantify explicit aspects of land cover components (e.g., points, pixels or polygons on a map) that can be combined to assign a meaningful land use / land cover label. The EAGLE system presents a shift from single-class classification of mapped units, and instead characterize them by their land \textbf{cover}, land \textbf{use}, and land \textbf{characteristics} (See Fig.\@~\ref{fig:eagle_structure}. These components are (or consist of) hierarchical legends, and each mapped unit is represented by a combination of these aspects instead of being classified by a single label. For example, \textit{Land Cover} consists of \textit{Abiotic}, \textit{Biotic}, and \textit{Water} land cover categories that each have subtypes (see Fig.\@\ref{eagle_landcover}) such as \textit{Woody} vegetation being split up in \textit{Trees} and \textit{Bushes}. Examples of land \textit{characteristics} are the \textit{frequency of surface water presence through time} \citep{pekel2016high} and \textit{Canopy height} \citep{potapov2021mapping}. Land \textit{use} is defined at the highest level as the sector of the human economy a piece of land is used for, such as \textit{Primary production}, and then further defined as e.g., \textit{Forestry} and \textit{Agriculture}, in turn, \textit{Agriculture} then contains many different agricultural practices and purposes.
+        In this thesis, I attempted to first (in Chapter\@~\ref{cha:chapter3}) reproduce the CORINE land cover legend, and experienced the limitations of mixed land use / land cover classes, and the contextual overlap between some classes like pastures, industrial buildings, and airports (see Fig\@~\ref{fig:heathrow}). While land use can cause much confusion to some machine learning models, it is essential, perhaps even more so than land cover, to locate and quantify. These limitations can likely be overcome by optimizing the legend and disaggregating land use and land cover in a fine-grained way.
+        
+        Fortunately, much work has already been done on this. The discussion around the ambiguities of CLC and its incompatibilities to other nomenclatures, like LUCAS, inspired the formation of the Eionet Action Group on Land monitoring in Europe (EAGLE) group, which developed a method to quantify explicit aspects of land cover components (e.g., points, pixels or polygons on a map) that can be combined to assign a meaningful land use / land cover label. The EAGLE system presents a shift from single-class classification of mapped units, and instead characterize them by their land \textbf{cover}, land \textbf{use}, and land \textbf{characteristics} (See Fig.\@~\ref{fig:eagle_structure}). 
         
         \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\textwidth]{figs_01/eagle_structure.png}
-        \caption{Classification structure of the EAGLE concept: Land Cover, Land Use, and Land Characteristics are quantified separately, and can be combined in multiple ways to provide a LULC label to a mapped unit (e.g., a pixel or polygon). Source: \url{https://land.copernicus.eu/en/eagle}}
+        \includegraphics[width=0.75\textwidth]{figs_06/eagle_structure.png}
+        \caption{Classification structure of the EAGLE concept: Land Cover (LC), Land Use (LU), and Land Characteristics (LCH) are quantified separately, and can be combined in multiple ways to provide a LULC label to a mapped unit (e.g., a pixel or polygon). Source: \url{https://land.copernicus.eu/en/eagle}}
         \label{fig:eagle_structure}
         \end{figure}
+        
+        These components are (or consist of) hierarchical legends, and each mapped unit is represented by a combination of these aspects instead of being classified by a single label. For example, \textit{Land Cover} consists of \textit{Abiotic}, \textit{Biotic}, and \textit{Water} land cover categories that each have subtypes (see Figs.\@~\ref{fig:eagle_structure}\@and\@~\ref{fig:eagle_landcover}) such as \textit{Woody} vegetation being split up in \textit{Trees} and \textit{Bushes}. Examples of land \textit{characteristics} are the \textit{frequency of surface water presence through time} \citep{pekel2016high} and \textit{Canopy height} \citep{potapov2021mapping} (See Fig.\@~\ref{fig:eagle_landcharacteristics}). Land \textit{use} is defined at the highest level as the sector of the human economy a piece of land is used for, such as \textit{Primary production}, and then further defined as e.g., \textit{Forestry} and \textit{Agriculture}, in turn, \textit{Agriculture} then contains many different agricultural practices and purposes (See Fig.\@~\ref{fig:eagle_landuse}).
+        
+        
 
         \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.48\textwidth}
+        \begin{subfigure}[b]{0.85\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{figs_01/eagle_landcover.png}
+        \includegraphics[width=\linewidth,height=0.4\linewidth]{figs_06/eagle_landcover.png}
         \caption{Land Cover Components}
         \label{fig:eagle_landcover}
         \end{subfigure}
         \vspace{1em}
-        \begin{subfigure}[b]{0.48\textwidth}
+        \begin{subfigure}[b]{0.85\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{figs_01/eagle_landuse.png}
+        \includegraphics[width=\linewidth,height=0.4\linewidth]{figs_06/eagle_landuse.png}
         \caption{Land Use Attributes}
         \label{fig:eagle_landuse}
         \end{subfigure}
         \vspace{1em}
-        \begin{subfigure}[b]{0.48\textwidth}
+        \begin{subfigure}[b]{0.85\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{figs_01/eagle_landcharacteristics.png}
+        \includegraphics[width=\linewidth,height=0.4\linewidth]{figs_06/eagle_landcharacteristics.png}
         \caption{Land Characteristics}
         \label{fig:eagle_landcharacteristics}
         \end{subfigure}
         
-        \caption{A simplified(!) representation of the EAGLE concept and how it can be used to divide land units into categories based on hierarchical combinations of land cover, land use, and water presence. Source: \url{https://land.copernicus.eu/en/eagle}}
+        \caption{A simplified representation of the EAGLE concept and how it can be used to divide land units into categories based on hierarchical combinations of land cover, land use, and water presence. Source: \url{https://land.copernicus.eu/en/eagle}}
         \label{fig:eagle} % This should be inside the figure environment but outside any subfigure
         \end{figure}
 
-        We have shown that aggregating predictions to simpler and/or more optimal legends can drastically improve their accuracy. It would not be surprising if the greater confusion at higher thematic detail has motivated other attempts to create CORINE land use / land cover predictions to pre-emptively reduce their level of detail. But what if you could selectively reduce the detail of predictions that are probably mistakes? 
+        I have shown that aggregating predictions to simpler and/or more optimal legends can drastically improve their accuracy. It would not be surprising if the greater confusion at higher thematic detail has motivated other attempts to create CORINE land use / land cover predictions to pre-emptively reduce their level of detail. But what if you could selectively reduce the detail of predictions that are probably mistakes? 
         
         Using prediction uncertainty to allow a model to predict \textit{nothing} is called \textit{Selective classification}, but this would cause gaps in a map. While no one wants mistakes on their map, why would you throw out the baby with the bathwater to get rid of them? 
         
@@ -275,23 +285,23 @@ The third chapter of the thesis describes relatively more innovative attempts to
 
             To map relevant LULC classes globally (or at least in other continents than Europe), training and validation data from those areas is needed. For this purpose, we can combine generic global training datasets like the Dynamic World training data \citep{tait2021dwtd} and GLANCE \citep{stanimirova2023global} with global datasets that represent a few detailed classes such as WorldCereal \citep{boogaard2023worldcereal} and NASA CropHarvest \citep{tseng2021cropharvest}. 
             
-            Volunteered geographical data is another important source of detailed class labels. For example, OpenStreetmap was used to extract training data and map 14 CORINE classes more accurately than CORINE Land Cover in most cases \citep{schultz2017open}. In 2016 OSM's road network was 83\% complete, and more than 40\% of countries, including several in the developing world, had a fully mapped street network \citep{barrington2017world}. Still, its coverage for other objects is far from perfect, as even in Europe, the extent to which buildings and other objects are annotated is heavily biased to areas that are more prosperous or more popular with prosperous tourists (See Fig.\@~\ref{fig:}
+            Volunteered geographical data is another important source of detailed class labels. For example, OpenStreetmap was used to extract training data and map 14 CORINE classes more accurately than CORINE Land Cover in most cases \citep{schultz2017open}. In 2016 OSM's road network was 83\% complete, and more than 40\% of countries, including several in the developing world, had a fully mapped street network \citep{barrington2017world}. Still, its coverage for other objects is far from perfect, as even in Europe, the extent to which buildings and other objects are annotated is heavily biased to areas that are more prosperous or more popular with prosperous tourists (See Fig.\@~\ref{fig:osm_vs_cop_italy}
 
             \begin{figure}
-            \begin{subfigure}[t]{0.24\textwidth}
+            \begin{subfigure}[t]{0.33\textwidth}
             \centering
-            \includegraphics[width=\linewidth,height=\linewidth{figs_06/osm_impcop.png}
+            \includegraphics[width=\linewidth,height=\linewidth]{figs_06/osm_impcop.png}
             \caption{Europe}
-            \label
+            \label{fig:osm_vs_cop_europe}
             \end{subfigure}
             \hfill
-            \begin{subfigure}[t]{0.74\textwidth}
+            \begin{subfigure}[t]{0.66\textwidth}
             \centering
-            \includegraphics[width=0.75\linewidth]{figs_06/osm_vs_cop_italy.png}
+            \includegraphics[width=\linewidth,height=0.5\linewidth]{figs_06/osm_vs_cop_italy.png}
             \caption{Southern Italy}
             \label{fig:osm_vs_cop_italy}
             \end{subfigure}
-            \caption{extracted OpenStreetMap buildings (in red), supplemented by Copernicus High Resolution Imperviousness data (in blue), used in Chapter\@~\ref{cha:chapter3}. The red areas indicate where buildings are annotated in OSM, while blue indicates impervious areas that are most likely buildings, but were missed by OSM. It shows clear differences between country borders (e.g., between France and Spain, Austria and Slovenia), regions (e.g., Puglia and Campagna in Southern Italy), and the urban/rural divide.}
+            \caption{extracted OpenStreetMap buildings (in red), supplemented by Copernicus High Resolution Imperviousness data (in blue), used in Chapter\@~\ref{cha:chapter3}. The red areas indicate where buildings are annotated in OSM, while blue indicates impervious areas that are most likely buildings, but were missed by OSM. It shows clear differences between country borders (e.g., between France and Spain, Austria and Slovenia), regions (e.g., Puglia and Campagna in Southern Italy), and the urban/rural divide. For a more detailed explanation of this dataset, see Chapter\@~\ref{cha:chapter3}.}
             \label{fig:osm_vs_cop_europe}
             \end{figure}
             
@@ -363,21 +373,21 @@ The third chapter of the thesis describes relatively more innovative attempts to
         \begin{subfigure}[t]{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth,height=\linewidth]{figs_06/brocken_ndvi_slope.png}
-        \caption{20-year trend slope of Landsat NDVI values. Green indicates increase, red indicates decline.}
+        \caption{20-year trend slope of Landsat NDVI values.}
         \label{fig:brocken_ndvi}
         \end{subfigure}
         \hfill
         \begin{subfigure}[t]{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth,height=\linewidth]{figs_06/brocken_pslope.png}
-        \caption{Probability slope for \textit{Coniferous forest}. Green indicates increase, red indicates decline.}
+        \caption{Probability slope for \textit{Coniferous forest}.}
         \label{fig:brocken_pslope}
         \end{subfigure}
         \hfill
         \begin{subfigure}[t]{0.24\textwidth}
         \centering
         \includegraphics[width=\linewidth,height=\linewidth]{figs_06/brocken_pslope_r2.png}
-        \caption{R2 of probability slope for \textit{Coniferous Forest}. Green is high, purple is low.}
+        \caption{R2 of probability slope for \textit{Coniferous Forest}.}
         \label{fig:brocken_pslope_r2}
         \end{subfigure}
         \caption{Dieback of coniferous forest (Norway spruce) near Mt. Brocken, Germany, as represented by data generated in Chapters\@~\ref{cha:chapter2}\@~and\@~\ref{cha:chapter3}. Note that the \textit{``Probability Slope''} has nodata exactly where it should be highly negative and has a high confidence, but that the \textit{``NDVI slope''} correctly displays the area where the dieback occurred.}
@@ -392,7 +402,7 @@ The third chapter of the thesis describes relatively more innovative attempts to
                 
         Increasing the temporal resolution to capture frequent changes comes with trade-offs. Highly detailed maps (e.g., daily or weekly) can become computationally expensive. For time-series methods that require observing the entire land cover cycle, a time period with a time resolution that captures the full cycle is crucial. Many crops have cycles lasting 3-4 months, suggesting that bi-weekly or monthly resolutions might be more suitable for these cases. Evergreen broadleaf forests face much less changes along the entire year. In this case, monthly or bi-monthly resolution might be more appropriate. This allows the model to "see" the complete transformation of the land cover throughout the season or the year and improve classification accuracy. 
 
-    \subsection{Mapping it all at once?: A final word on models}
+    \subsection{Mapping it all at once? A final word on models}
 
         In each of the previous sections about classes and legends (\ref{syn:everything}), training data and feature space (\ref{syn:everywhere}), and the role temporal resolution and coverage (\ref{syn:allthetime}), I have only briefly mentioned modeling techniques that would be appropriate to deal with their specific issues. While each separate question has separate answers, the modeling part of this synthesis must be answered holistically. This final section presents my perspectives on a modeling approach to make detailed, global maps that have useful and meaningful LULC classes. 
         

@@ -9,14 +9,15 @@
 
 \subsection{Land cover}
 
-    Land cover---the physical and biological material found on the surface of the earth---encompasses natural environments like forests, grasslands, wetlands, and things made by humans, like urban areas, croplands, and infrastructure. 
+    Land cover---the physical and biological material found on the surface of the earth---encompasses natural environments like forests, grasslands, wetlands, and things made by humans, like urban areas, croplands, and infrastructure \citep{fisher2005land}. 
     
     Its study and monitoring are crucial for a multitude of reasons. Land cover changes significantly influence regional and global climate patterns and are a major driver of biodiversity loss, emphasizing the necessity of monitoring for climate change mitigation and biodiversity preservation \citep{pielke2002influence, houghton2012carbon, sala2000global, cbd2016indicators}. 
     
     Additionally, these changes have direct implications for the quality and availability of natural resources, such as water and air \citep{foley2005global}. Land cover assessment is vital for evaluating the livability of human environments \citep{krekel2016greener,levering2024landscape} and has key applications in informing policy, analyzing land-based emissions, and estimating local climate extremes \citep{duveiller2020, hong2021luemissions, sy2020,}. 
 
-    Therefore, understanding land cover dynamics is crucial for effective policy-making at both regional and global levels \citep{liu2020assessing, trisurat2019land, shumba2020effectiveness}. As different entities with different objectives require maps with different things on them, the choice of which type of land cover to map is a central one. 
+    Therefore, understanding land cover dynamics is crucial for effective policy-making at both regional and global levels \citep{liu2020assessing, trisurat2019land, shumba2020effectiveness}. As different entities with different objectives require maps with different characteristics and aspects, the choice of which type of land cover to map is a central one. 
 
+    %% NEW PARAGRAPH
 \subsection{General land cover classes}
 
     \subsubsection{Crops and Grasslands}
@@ -49,7 +50,7 @@
 
         Which brings us to the next question: How do you get those maps in spite of those challenges? People used to draw maps based on field surveys. Later maps were based on aerial imagery. In recent decades, we have been increasingly using remote sensing and machine learning.
 
-        \subsubsection{Land cover and land use mapping and monitoring in EU}
+    \subsubsection{Land cover and land use mapping and monitoring in EU}
 
         Especially in Europe, long-running datasets, such as CORINE land cover and the LUCAS survey \citep{lucas,dandrimont2021lucas}, have provided detailed and consistent land cover information for almost two decades \citep{gallego2008using}. 
         
@@ -100,7 +101,7 @@
 
         It is important to have enough training examples \citep{ramezan2021effects,rodriguez-perez2017influence,zhu2016optimizing}, but what is `enough' differs per model \citep{myburgh2014impact} and task \citep{koshute2021recommending}.
         
-        Models often learn to estimate classes in the same proportions as their training data. If these proportions do not match the real-world situation of the area they need to map, the model may get \textbf{biased}. To minimize this bias and predict the right relative quantities for each class, you need training data that match the desired proportions \citep{he2009learning, kleinewillinghofer2022unbiased}.
+        Models often learn to estimate classes in the same proportions as their training data. If these proportions do not match the real-world situation of the area they need to map, the model may become \textbf{biased}. To minimize this bias and predict the right relative quantities for each class, you need training data that match the desired proportions \citep{he2009learning}.
         
     \subsubsection{Validation data}
 
@@ -124,7 +125,20 @@
         Spatial machine learning is unique in the sense that it allows modelers to easily combine variables if they can somehow acquire a representation of them at the time and place of the ground truth observation, such as with a spatial or spatiotemporal overlay. Combining different data sources can lead to much higher performance, for instance with crop stress detection  \citep{berger2022multi}, urban heat \citep{shahi2015novel}, and land cover classification \citep{zhu2016optimizing, hurskainen2019auxiliary, hosseiny2022urban,xu20183d}. Having data of the same place from different moments \citep{low2013impact} and different spatial resolutions or scales \citep{santos2012multiscale} can also improve mapping accuracy, especially of classes that have very similar spectral profiles and/or cyclical temporal dynamics, such as crops and grassland \citep{esch2014differentiation}.
 
 \subsection*{The current land cover mapping arms race}
-        
+
+   In the past decades, machine learning has been used to make land use and land cover maps at global scales. Due to limitations in the resolution of the available satellite data, such maps were at resolutions of 5~km for GLASS-GLC \citep{liu2020annual}, 300~m for ESA CCI \citep{defourny2012land} or 100~m for Copernicus Global Land Cover \citep{buchhorn2020copernicus}. This made them useful for large scale analysis, but of limited value for local applications and analyses, such as investigating small-scale land use as drivers of deforestation \citep{masolele2024mapping}. However, in the last few years, the increased availability and analysis-readiness of high-resolution from NASA's Landsat and ESA's Sentinel-2 programmes have enabled the creation of global- and continental-scale high-resolution land cover maps by several organizations. Notable examples are ESA's WorldCover \citep{kerchove2021esa} and WorldCereal \citep{tricht2023worldcereal}, Google's DynamicWorld \citep{brown2022dynamic}, ESRI's Land Cover \citep{karra2021global}, and GLAD's Global Land Cover \citep{potapov2022global}.
+    These maps often have high resolution and high accuracy, but are usually limited in multiple ways: reproducibility, time coverage, and detail:
+    
+    \subsubsection{Reproducibility}
+        Most of the current big mapping initiatives only share their maps, not the reference data that they used to produce them. This not only makes it difficult or impossible to reproduce, challenge, or improve their work, but also prevents it from being used for new projects \citep{tsendbazar2015assessing}. If they don't share their validation data, independent validations are dependent on open validation datasets \citep{venter2022global}, which might not perfectly match their legend, making a fair comparison more difficult.
+    
+    \subsubsection{Time coverage} 
+        Most of the current generation of maps use 10~m Sentinel-2 data, which only became available in 2016. Mapping initiatives that use Landsat data can go back much further, but are then limited to mapping at 30m resolution. Examples are the Australian land cover time series made by \citep{calderon2021high} and the work of UMD GLAD, which produced annual land cover maps from the year 2000 onwards using Landsat data \citep{hansen2022global}. 
+
+    \subsubsection{Detail}
+        %Visual interpretation mention specifically!
+        Often, these maps depict at most ten land cover categories (see Table~\ref{tab:bigmaps}). Mapping more classes is more difficult because there is more chance of confusion between similar classes. This also applies to the creation of training data: The current most common way to create it is by visual inspection of high resolution aerial or satellite imagery, and this becomes more difficult with more specific classes. Just like for a machine learning model, it is much easier for an annotator to differentiate between a forest and cropland than between different cereal crop types. Classifying more different classes is also more difficult for machine learning models and requires more training data, and of higher quality, which is an expensive and complex task \citep{li2021improving}, especially for large diverse areas (e.g., continents or the whole planet) \citep{tsendbazar2021towards,stanimirova2023global}. 
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.48\textwidth} % Adjusted to 0.48 to allow some space between images
@@ -160,19 +174,7 @@
     \label{fig:bigmaps_biesbosch}
     \end{figure}
 
-    In the past decades, machine learning has been used to make land use and land cover maps at global scales. Due to limitations in the resolution of the available satellite data, such maps were at resolutions of 5~km for GLASS-GLC \citep{liu2020annual}, 300~m for ESA CCI \citep{defourny2012land} or 100~m for Copernicus Global Land Cover \citep{buchhorn2020copernicus}. This made them useful for large scale analysis, but of limited value for local applications and analyses, such as investigating small-scale land use as drivers of deforestation \citep{masolele2024mapping}. However, in the last few years, the increased availability and analysis-readiness of high-resolution from NASA's Landsat and ESA's Sentinel-2 programmes have enabled the creation of global- and continental-scale high-resolution land cover maps by several organizations. Notable examples are ESA's WorldCover \citep{kerchove2021esa} and WorldCereal \citep{tricht2023worldcereal}, Google's DynamicWorld \citep{brown2022dynamic}, ESRI's Land Cover \citep{karra2021global}, and GLAD's Global Land Cover \citep{potapov2022global}.
-    These maps often have high resolution and high accuracy, but are usually limited in multiple ways: reproducibility, time coverage, and detail:
-    
-    \subsubsection{Reproducibility}
-        The current big mapping initiatives only share their maps, not the reference data that they used to produce them. This not only makes it difficult or impossible to reproduce, validate \citep{venter2022global}, or improve their work, but also prevents it from being used for new projects \citep{tsendbazar2015assessing}.
-    
-    \subsubsection{Time coverage} 
-        Most of the current generation of maps use 10~m Sentinel-2 data, which only became available in 2016. Mapping initiatives that use Landsat data can go back much further, but are then limited to mapping at 30m resolution. Examples are the Australian land cover time series made by \citep{calderon2021high} and the work of UMD GLAD, which produced annual land cover maps from the year 2000 onwards using Landsat data \citep{hansen2022global}. 
-
-    \subsubsection{Detail}
-        %Visual interpretation mention specifically!
-        Often, these maps depict at most ten land cover categories (see Table~\ref{tab:bigmaps}). Mapping more classes is more difficult because there is more chance of confusion between similar classes. This also applies to the creation of training data: The current most common way to create it is by visual inspection of high resolution aerial imagery, and this becomes more difficult with more specific classes. Just like for a machine learning model, it is much easier for an annotator to differentiate between a forest and cropland than between different cereal crop types. Classifying more different classes is also more difficult for machine learning models and requires more training data, and of higher quality, which is an expensive and complex task \citep{li2021improving}, especially for large diverse areas (e.g., continents or the whole planet) \citep{tsendbazar2021towards,stanimirova2023global}. 
-
+ 
     Although there are exceptions to each of these issues, in general, all of the current mapping initiatives have at least one of these limitations (see Table\@~\ref{tab:bigmaps}). There is value in mapping as far back as possible, something that the previous generation of global maps did do. An extreme example is the History database of the Global Environment (HYDE), which contains historic estimated maps at 10~km resolution of main land use categories going back more than 10 thousand years. (Klein Goldewijk et al. 2017). HYDE is also quite detailed, and includes irrigated areas, rice, intensive pasture, extensive rangelands and similar classes. This makes it useful despite its low spatial resolution. Regardless, there is a need for modern maps that do not sacrifice detail to maintain useful spatial resolution and accuracy, and which are made transparently and reproducibly, so that they can be challenged, improved, and trusted.
 
     \begin{table}[h]
@@ -205,7 +207,7 @@
 
 \section{Research Gaps}
 
-    There is a reproducibility crisis in science, and environmental monitoring is no exception. How can decision-makers trust datasets whose creation does not only involve complex workflows, but can not be reproduced or improved? It turns out that they often don't, and keep relying on older methods that might be slow and expensive, but reproducible and reliable. The current boom in for-profit remote sensing has allowed for excellent analysis using high-resolution data ---e.g., drivers of deforestation in Africa \citep{masolele2024mapping} using 3~m resolution Planet data--- but limitations on sharing this data, and the profit and marketing motivations of corporations make sharing, trusting, and using their maps difficult.
+    There is a reproducibility crisis in science, and environmental monitoring is no exception \citep{treves2022best, powers2018open}. How can decision-makers trust datasets whose creation does not only involve complex workflows, but can not be reproduced or improved? It turns out that they often don't, and keep relying on older methods that might be slow and expensive, but reproducible and reliable. The current boom in for-profit remote sensing has allowed for excellent analysis using high-resolution data ---e.g., drivers of deforestation in Africa \citep{masolele2024mapping} using 3~m resolution Planet data--- but limitations on sharing this data, and the profit and marketing motivations of corporations make sharing, trusting, and using their maps difficult.
 
     There are no reproducible large-scale maps with more than 13 classes, not even for Europe, for which an unprecedented wealth of land cover information is publicly available \citep{dandrimont2020harmonised}. \citet{pflugmacher2019mapping} demonstrated that the LUCAS points can be used to train and validate land cover models, but the LUCAS legend is a hierarchical system with over 70 land cover and land use classes. To retain its use as a validation set, training data should be extracted from other human-annotated datasets such as CORINE, EuroCrops \citep{schneider2023eurocrops} and OpenStreetMap \citep{schultz2017open}.  In order to use data with the large minimal mapping unit of CORINE or the potential errors in volunteered geographical information \citep{neis2014recent}, filtering techniques are required to remove spurious training samples.
 
