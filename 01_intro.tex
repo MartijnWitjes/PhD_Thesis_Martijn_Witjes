@@ -27,9 +27,7 @@
 
     \subsubsection{Forests}
 
-        Forests cover nearly a third of the planet's land area \citep{fao2022,banskota2014forest} and more than 41\% of the EU \citep{eurostat2021land}. They are important for biodiversity \citep{cazzolla2022number}, carbon sequestration \citep{ipcc2021}, and have been supplying a plethora of resources used by human civilization since the palaeolithic. Given recent trends of globalization and deforestation, monitoring forest cover change and its drivers is crucial \citep{sy2019tropical,masolele2024mapping} for a great number of actors, including the UN and national governments, the industrial sector, local communities, and Indigenous peoples.
-
-        National forest inventories, statisticians, and mapping organizations often disagree about the quantity of forest in any given area, which can lead to fierce scientific debates \citep{picard2021recent, korhonen2020new, palahi2021concerns, rossi2019assessing}
+        Forests cover nearly a third of the planet's land area \citep{fao2022,banskota2014forest} and more than 41\% of the EU \citep{eurostat2021land}. They are important for biodiversity \citep{cazzolla2022number}, carbon sequestration \citep{ipcc2021}, and have been supplying a plethora of resources used by human civilization since the palaeolithic. Given recent trends of globalization and deforestation, monitoring forest cover change and its drivers is crucial \citep{sy2019tropical,masolele2024mapping} for a great number of actors, including the UN and national governments, the industrial sector, local communities, and Indigenous peoples. National forest inventories, statisticians, and mapping organizations often disagree about the quantity of forest in any given area, which can lead to fierce scientific debates \citep{picard2021recent, korhonen2020new, palahi2021concerns, rossi2019assessing}
     
     \subsubsection{Wetlands}
 
@@ -41,19 +39,14 @@
 
     \subsubsection{What should be on a map?}
 
-        Broad categories such as 'Forest' or 'Water' are relatively simple for people and computers to differentiate. However, adding more detail to the map by splitting up these big categories into more specific classes, or improving the \textit{thematic resolution}, brings many challenges. 
-        
-        First of all, maps with many classes are hard to read by humans. Reading a complex map is not always necessary, as users can derive simpler maps from rich datasets to tailor them to their use case \citep{tsendbazar2017integrating} or use the mapped values for a different type of analysis. 
-
+        Broad categories such as 'Forest' or 'Water' are relatively simple for people and computers to differentiate. However, adding more detail to the map by splitting up these big categories into more specific classes, or improving the \textit{thematic resolution}, brings many challenges. First of all, maps with many classes are hard to read by humans. Reading a complex map is not always necessary, as users can derive simpler maps from rich datasets to tailor them to their use case \citep{tsendbazar2017integrating} or use the mapped values for a different type of analysis. 
         Secondly, the process of making detailed maps is more costly and difficult. You need to collect more examples from more different categories, and not all categories are equally easy to distinguish by surveyors. Someone interpreting aerial imagery might be able to distinguish grassland from forest, but what if they want to map different tree species, or distinguish pastures from natural grassland?
-
         Which brings us to the next question: How do you get those maps in spite of those challenges? People used to draw maps based on field surveys. Later maps were based on aerial imagery. In recent decades, we have been increasingly using remote sensing and machine learning.
 
     \subsubsection{Land cover and land use mapping and monitoring in EU}
 
-        Especially in Europe, long-running datasets, such as CORINE land cover and the LUCAS survey \citep{dandrimont2021lucas}, have provided detailed and consistent land cover information for almost two decades \citep{gallego2008using}. 
-        
-        A good example of a detailed land cover dataset experiencing this transition is the CORINE (Coordination of Information on the Environment) Land Cover Project. CORINE is an initiative by the European Environment Agency (EEA) that aims to collect information on the land cover of Europe to support environmental policy development. The project started in 1985 as part of the European Commission's CORINE program, designed to gather and harmonize data related to the environment across the member states. In the subsequent decades, it was used to assess land cover changes in Europe \citep{mucher2000land, feranec2010determining}. 
+        Especially in Europe, long-running datasets, such as the Coordination of Information on the Environment (CORINE) Land Cover Project and the Land Use / Cover Area frame Survey (LUCAS) \citep{dandrimont2021lucas}, have provided detailed and consistent land cover information for almost two decades \citep{gallego2008using}. 
+        CORINE is a good example of a detailed land cover dataset experiencing th . CORINE is an initiative by the European Environment Agency (EEA) that aims to collect information on the land cover of Europe to support environmental policy development. The project started in 1985 as part of the European Commission's CORINE program, designed to gather and harmonize data related to the environment across the member states. In the subsequent decades, it was used to assess land cover changes in Europe \citep{mucher2000land, feranec2010determining}. 
 
         However, as the project evolved and standards for environmental data became more stringent, its limitations became increasingly apparent. 
         The nature of its legend, which often combines land use and land cover within the same category, and the presence of mixed classes such as \textit{airport} (grass, buildings, roads).
@@ -77,7 +70,7 @@
                 \centering
                 \includegraphics[width=\linewidth,height=2.15\textwidth,keepaspectratio]{figs_01/corine_legend.pdf}
                 \caption{The 43-class CORINE Land Cover legend.}
-                \label{fig:second_col_fig}
+                \label{fig:biesbosch_osm_clc}
             \end{minipage}
             \label{fig:two_column_layout}
         \end{figure}
@@ -114,11 +107,9 @@
 
     \subsubsection{Earth Observation Data}
 
-        Earth observation data refers to measurements taken by sensors at various ranges, from ground measurements \citep{shahi2015novel} to drone \citep{tang2015drone} and airplane \citep{mastelic2020aerial} imagery, to satellite scans \citep{phiri2020sentinel}. The most useful for recurring large-scale mapping are satellite scans, as satellites revisit the same area at a regular pace. This allows them to provide a consistent stream of data, which, in some cases, can continue for decades \citep{xiong2020modis,wulder2022fifty}.
+        Earth observation data refers to measurements taken by sensors at various ranges, from ground measurements \citep{shahi2015novel} to drone \citep{tang2015drone} and airplane \citep{mastelic2020aerial} imagery, to satellite scans \citep{phiri2020sentinel}. The most useful for recurring large-scale mapping are satellite scans, as satellites revisit the same area at a regular pace. This allows them to provide a consistent stream of data, which, in some cases, can continue for decades \citep{xiong2020modis,wulder2022fifty}. The activity of remotely collecting Earth observation data is generally referred to as \textbf{remote sensing}.
 
-        Earth observation data only started becoming openly available after Brazil published its LANDSAT archives as open data in 2008 \citep{nature2008markets}. Afterwards, more and more Earth observation data and land cover information has become openly available. 
-    
-        While this rapidly growing landscape of increasingly large datasets on diverging platforms and systems can be hard to navigate \citep{wagemann2021a}, it has fuelled an exponential increase in the amount of mapping initiatives and environmental awareness \citep{wulder2022fifty}, with applications ranging from deforestation \citep{hansen2013high} to soil mapping \citep{hengl2017soilgrids250m}.
+        Earth observation data only started becoming openly available after Brazil published its LANDSAT archives as open data in 2008 \citep{nature2008markets}. Afterwards, more and more Earth observation data and land cover information has become openly available. While this rapidly growing landscape of increasingly large datasets on diverging platforms and systems can be hard to navigate \citep{wagemann2021a}, it has fuelled an exponential increase in the amount of mapping initiatives and environmental awareness \citep{wulder2022fifty}, with applications ranging from deforestation \citep{hansen2013high} to soil mapping \citep{hengl2017soilgrids250m}. For further reading on the role of remote sensing in quantifying essential characteristics of the biosphere, cryosphere, and hydrosphere, readers are directed to \citet{radeloff2024need}, which provides an up-to-date review of the state of the art and current needs.
         
         Spatial machine learning is unique in the sense that it allows modelers to easily combine variables if they can somehow acquire a representation of them at the time and place of the ground truth observation, such as with a spatial or spatiotemporal overlay. Combining different data sources can lead to much higher performance, for instance with crop stress detection  \citep{berger2022multi}, urban heat \citep{shahi2015novel}, and land cover classification \citep{zhu2016optimizing, hurskainen2019auxiliary, hosseiny2022urban,xu20183d}. Having data of the same place from different moments \citep{low2013impact} and different spatial resolutions or scales \citep{santos2012multiscale} can also improve mapping accuracy, especially of classes that have very similar spectral profiles and/or cyclical temporal dynamics, such as crops and grassland \citep{esch2014differentiation}.
 
@@ -131,7 +122,7 @@
         Most of the current big mapping initiatives only share their maps, not the reference data that they used to produce them. This not only makes it difficult or impossible to reproduce, challenge, or improve their work, but also prevents it from being used for new projects \citep{tsendbazar2015assessing}. If they don't share their validation data, independent validations are dependent on open validation datasets \citep{venter2022global}, which might not perfectly match their legend, making a fair comparison more difficult.
     
     \subsubsection{Time coverage} 
-        Most of the current generation of maps use 10~m Sentinel-2 data, which only became available in 2016. Mapping initiatives that use Landsat data can go back much further, but are then limited to mapping at 30m resolution. Examples are the Australian land cover time series made by \citep{calderon2021high} and the work of UMD GLAD, which produced annual land cover maps from the year 2000 onwards using Landsat data \citep{hansen2022global}. 
+        Most of the current generation of maps use 10~m Sentinel-2 data, which only became available in 2016. Mapping initiatives that use Landsat data can go back much further, but are then limited to mapping at 30m resolution. Examples are the Australian land cover time series made by \citep{calderon2021high} and the work of UMD GLAD, which produced annual land cover maps from the year 2000 onwards using Landsat data \citep{hansen2022global}. \citet{garcia2022global} provides an thorough overview of LULC datasets with long-running time series.
 
     \subsubsection{Detail}
         %Visual interpretation mention specifically!
@@ -166,13 +157,13 @@
         \includegraphics[width=\textwidth]{figs_01/thesis_legends-harmonized.pdf}
     \end{subfigure}
     
-    \caption{Comparison of four global mapping projects in the Biesbosch region, Google Dynamic World \citep{brown2022dynamic}, ESRI Land Cover \citep{karra2021global}, ESA WorldCover \citep{kerchove2021esa}, and GLAD Land Cover \citep{potapov2022global}. Note that each legend is more specific in some thematic types: GLAD differentiates more strongly based on tree cover, while ESA WorldCover differentiates more between different types of non-forested dry land.}
+    \caption{Comparison of four global mapping projects in the Biesbosch wetlands area in the Netherlands: Google Dynamic World \citep{brown2022dynamic}, ESRI Land Cover \citep{karra2021global}, ESA WorldCover \citep{zanaga2022esa}, and GLAD Land Cover \citep{potapov2022global}. Note that each legend is more specific in some thematic types: GLAD differentiates more strongly based on tree cover, while ESA WorldCover differentiates more between different types of non-forested dry land.}
     \label{fig:bigmaps_biesbosch}
 \end{figure}
 
 
  
-    Although there are exceptions to each of these issues, in general, all of the current mapping initiatives have at least one of these limitations (see Table\@~\ref{tab:bigmaps}). There is value in mapping as far back as possible, something that the previous generation of global maps did do. An extreme example is the History database of the Global Environment (HYDE), which contains historic estimated maps at 10~km resolution of main land use categories going back more than 10 thousand years. (Klein Goldewijk et al. 2017). HYDE is also quite detailed, and includes irrigated areas, rice, intensive pasture, extensive rangelands and similar classes. This makes it useful despite its low spatial resolution. Regardless, there is a need for modern maps that do not sacrifice detail to maintain useful spatial resolution and accuracy, and which are made transparently and reproducibly, so that they can be challenged, improved, and trusted.
+    Although there are exceptions to each of these issues, in general, all of the current mapping initiatives have at least one of these limitations (see Table\@~\ref{tab:bigmaps}). There is value in mapping as far back as possible, something that the previous generation of global maps did do \citep{garcia2022global}. An extreme example is the History database of the Global Environment (HYDE), which contains historic estimated maps at 10~km resolution of main land use categories going back more than 10 thousand years. (Klein Goldewijk et al. 2017). HYDE is also quite detailed, and includes irrigated areas, rice, intensive pasture, extensive rangelands and similar classes. This makes it useful despite its low spatial resolution. Regardless, there is a need for modern maps that do not sacrifice detail to maintain useful spatial resolution and accuracy, and which are made transparently and reproducibly, so that they can be challenged, improved, and trusted.
 
     \begin{table}[h]
     \centering
@@ -208,7 +199,7 @@
 
     There are no reproducible large-scale maps with more than 13 classes, not even for Europe, for which an unprecedented wealth of land cover information is publicly available \citep{dandrimont2020harmonised}. \citet{pflugmacher2019mapping} demonstrated that the LUCAS points can be used to train and validate land cover models, but the LUCAS legend is a hierarchical system with over 70 land cover and land use classes. To retain its use as a validation set, training data should be extracted from other human-annotated datasets such as CORINE, EuroCrops \citep{schneider2023eurocrops} and OpenStreetMap \citep{schultz2017open}.  In order to use data with the large minimal mapping unit of CORINE or the potential errors in volunteered geographical information \citep{neis2014recent}, filtering techniques are required to remove spurious training samples.
 
-    Furthermore, while some long-term annual mapping projects exist, they either have a low spatial resolution like ESA CCI \citep{harper202229} or cover only a select set of classes \citep{potapov2022global}.
+    Furthermore, while some long-term annual mapping projects exist, they either have a low spatial resolution like ESA CCI \citep{harper202229}, cover only a select set of classes \citep{potapov2022global}, or did not publish their training data \citep{zhang2020glcfcs30}. 
 
     Lastly, to evaluate the impacts of human activities on the environment and to both enable and justify localized interventions, it is essential that trends from area estimates and periodic maps are linked \citep{olofsson2014good,szantoi2020addressing,winkler2021global}. This requires a mapping framework that minimizes both quantity and allocation error \citep{pontius2011death}. While many mapping initiatives report class proportions \citep{pflugmacher2019mapping} or try to approximate correct area estimation with direct remote sensing measures \citep{kleinewillinghofer2022unbiased}, only a few explicitly investigate methods to force maps to match area estimates \citep{strahler1980use,horvath2021comparison}.
     
@@ -235,7 +226,7 @@ The research questions posed in the previous section are answered through four r
 \begin{figure}[H]
     \centering
     \includegraphics[width=.55\textwidth]{figs_01/fig_rqs_chapters.pdf}
-    \caption{Overview of which chapters discuss which research questions}
+    \caption{Overview of which chapters discuss which research questions.}
     \label{fig:01_rqs_chapters}
 \end{figure}
 
