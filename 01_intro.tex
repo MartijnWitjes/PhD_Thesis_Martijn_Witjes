@@ -17,7 +17,6 @@
 
     Therefore, understanding land cover dynamics is crucial for effective policy-making at both regional and global levels \citep{liu2020assessing, trisurat2019land, shumba2020effectiveness}. As different entities with different objectives require maps with different characteristics and aspects, the choice of which type of land cover to map is a central one. 
 
-    %% NEW PARAGRAPH
 \subsection{General land cover classes}
 
     \subsubsection{Crops and Grasslands}
@@ -52,33 +51,35 @@
 
     \subsubsection{Land cover and land use mapping and monitoring in EU}
 
-        Especially in Europe, long-running datasets, such as CORINE land cover and the LUCAS survey \citep{lucas,dandrimont2021lucas}, have provided detailed and consistent land cover information for almost two decades \citep{gallego2008using}. 
+        Especially in Europe, long-running datasets, such as CORINE land cover and the LUCAS survey \citep{dandrimont2021lucas}, have provided detailed and consistent land cover information for almost two decades \citep{gallego2008using}. 
         
-        A good example of a detailed land cover dataset experiencing this transition is the CORINE (Coordination of Information on the Environment) Land Cover Project. CORINE is an initiative by the European Environment Agency (EEA) that aims to collect information on the land cover of Europe to support environmental policy development. The project started in 1985 as part of the European Commission’s CORINE program, designed to gather and harmonize data related to the environment across the member states. In the subsequent decades, it was used to assess land cover changes in Europe \citep{mucher2000land, feranec2010determining}. 
+        A good example of a detailed land cover dataset experiencing this transition is the CORINE (Coordination of Information on the Environment) Land Cover Project. CORINE is an initiative by the European Environment Agency (EEA) that aims to collect information on the land cover of Europe to support environmental policy development. The project started in 1985 as part of the European Commission's CORINE program, designed to gather and harmonize data related to the environment across the member states. In the subsequent decades, it was used to assess land cover changes in Europe \citep{mucher2000land, feranec2010determining}. 
 
         However, as the project evolved and standards for environmental data became more stringent, its limitations became increasingly apparent. 
         The nature of its legend, which often combines land use and land cover within the same category, and the presence of mixed classes such as \textit{airport} (grass, buildings, roads).
-        Furthermore, the project's reliance on a 25 hectare minimum mapping unit for most LULC types means that it only contains relatively large patches (see Fig\@~\ref{fig:biesbosch_osm_clc}). This means it under-represents LULC types and is of limited accuracy at fine spatial scales \citep{buttner2014corine,aune2021content, pflugmacher2019mapping}. Regardless, CORINE Land Cover is among the most popular and widely used European land cover datasets, and should not be discarded. As using human cartographers at a finer spatial and temporal scale would be prohibitively difficult, slow, and costly, attempts have been made to automate the production of CLC \citep{buttner2014corine}, but usually at a lower thematic resolution, for example for 12 \citep{pflugmacher2019mapping} or 14 \citep{bhugra2022rapidai4eo} classes. There have also been other projects that accurately map European land cover at high spatial resolution using different legends that are more optimized for a remote sensing context, such as S2GLC \citep{malinowski2020}, and attempts to specifically map crop types with specialized approaches \citep{dandrimont2021parcel,luo2022developing}
-        
+        Furthermore, the project's reliance on a 25 hectare minimum mapping unit for most LULC types means that it only contains relatively large patches (see Fig.\@~\ref{fig:biesbosch_osm_clc}). This means it under-represents LULC types and is of limited accuracy at fine spatial scales \citep{buttner2014corine,aune2021content, pflugmacher2019mapping}. Regardless, CORINE Land Cover is among the most popular and widely used European land cover datasets, and should not be discarded. As using human cartographers at a finer spatial and temporal scale would be prohibitively difficult, slow, and costly, attempts have been made to automate the production of CLC \citep{buttner2014corine}, but usually at a lower thematic resolution, for example for 12 \citep{pflugmacher2019mapping} or 14 \citep{bhugra2022rapidai4eo} classes. There have also been other projects that accurately map European land cover at high spatial resolution using different legends that are more optimized for a remote sensing context, such as S2GLC \citep{malinowski2020}, and attempts to specifically map crop types with specialized approaches \citep{dandrimont2021parcel,luo2022developing}
+
         \begin{figure}[H]
-        \centering
-    
-        % First row with two subfigures side by side
-        \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=1\linewidth,height=\linewidth]{figs_01/biesbosch_osm.png}
-        \caption{OpenStreetMap}
-        \label{fig:biesbosch_osm}
-        \end{subfigure}
-        \hfill % Space between the first two subfigures
-        \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=1\linewidth,height=\linewidth]{figs_01/biesbosch_clc.png}
-        \caption{Corine Land Cover}
-        \label{fig:biesbosch_clc}
-        \end{subfigure}
-        \caption{Representation of the Biesbosch wetlands area in the Netherlands in OpenStreetMap and Corine Land Cover 2018}
-        \label{fig:biesbosch_osm_clc} % This should be inside the figure environment but outside any subfigure
+            \centering
+            % Left column
+            \begin{minipage}{0.5\textwidth}
+                \centering
+                \includegraphics[width=\linewidth]{figs_01/biesbosch_osm.png}
+                \caption{The Biesbosch wetlands area in the Netherlands, as represented on OpenStreetMap.}
+                \label{fig:first_col_first_fig}
+                \vspace{1em} % Space between the figures in the first column
+                \includegraphics[width=\linewidth]{figs_01/biesbosch_clc.png}
+                \caption{The Biesbosch as represented by CORINE Land Cover.}
+            \end{minipage}
+            \hfill
+            % Right column
+            \begin{minipage}{0.49\textwidth}
+                \centering
+                \includegraphics[width=\linewidth,height=2.15\textwidth,keepaspectratio]{figs_01/corine_legend.pdf}
+                \caption{The 43-class CORINE Land Cover legend.}
+                \label{fig:second_col_fig}
+            \end{minipage}
+            \label{fig:two_column_layout}
         \end{figure}
 
 \subsection{Land cover classification with machine learning and earth observation data}
@@ -95,12 +96,9 @@
 
     \subsubsection{Training data}
 
-        Training data is a set of labeled observations that are used to teach a machine learning model to recognize similar things in new situations. 
-        
-        The goal of most trained models is that they \textbf{generalize} well, which means that they can make consistent and accurate estimations in areas and moments they were not trained on. To make sure your model generalizes well, you have to properly represent the feature space of the area you want to map in your training data \citep{meyer2021predicting}. This does not directly relate to geographical space; large homogeneous areas such as deserts tend to be quite similar in the feature space, while small complex landscapes such as cities with parks, gardens and canals will show great local variation. 
+        Training data is a set of labeled observations that are used to teach a machine learning model to recognize similar things in new situations. To make sure your model generalizes well, you have to properly represent the feature space of the area you want to map in your training data \citep{meyer2021predicting}. This does not directly relate to geographical space; large homogeneous areas such as deserts tend to be quite similar in the feature space, while small complex landscapes such as cities with parks, gardens and canals will show great local variation. 
 
-        It is important to have enough training examples \citep{ramezan2021effects,rodriguez-perez2017influence,zhu2016optimizing}, but what is `enough' differs per model \citep{myburgh2014impact} and task \citep{koshute2021recommending}.
-        
+        It is important to have enough training examples \citep{ramezan2021effects,rodriguez-perez2017influence,zhu2016optimizing}, but what is `enough' differs per model \citep{myburgh2014impact} and task \citep{koshute2021recommending}. 
         Models often learn to estimate classes in the same proportions as their training data. If these proportions do not match the real-world situation of the area they need to map, the model may become \textbf{biased}. To minimize this bias and predict the right relative quantities for each class, you need training data that match the desired proportions \citep{he2009learning}.
         
     \subsubsection{Validation data}
@@ -141,38 +139,37 @@
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.48\textwidth} % Adjusted to 0.48 to allow some space between images
-    \centering
-    \includegraphics[width=0.99\textwidth,height=0.99\textwidth]{figs_01/a_worldcover.png}
-    \caption{ESA WorldCover}
-    \label{fig:lc_worldcover}
+    \begin{subfigure}[t]{0.243\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,height=\textwidth]{figs_01/a_dynamicworld_clean.png}
     \end{subfigure}
-    \hfill % This adds a small horizontal space between the figures
-    \begin{subfigure}[b]{0.48\textwidth} % Adjusted to 0.48 to allow some space between images
-    \centering
-    \includegraphics[width=0.99\textwidth,height=0.99\textwidth]{figs_01/a_glad.png}
-    \caption{GLAD Land Cover}
-    \label{fig:lc_glad}
+    \hfill % Distribute subfigures evenly in the line
+    \begin{subfigure}[t]{0.243\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,height=\textwidth]{figs_01/a_esri_clean.png}
+    \end{subfigure}
+    \hfill % Distribute subfigures evenly in the line
+    \begin{subfigure}[t]{0.243\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,height=\textwidth]{figs_01/a_worldcover_clean.png}
+    \end{subfigure}
+    \hfill % Distribute subfigures evenly in the line
+    \begin{subfigure}[t]{0.243\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,height=\textwidth]{figs_01/a_glad_clean.png}
+    \end{subfigure}
+    % No \hfill here as we want to force the next subfigure to the next line
+    % \vspace{0.1em} % Adds a bit of vertical space between the rows of figures, adjust as needed
+    
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figs_01/thesis_legends-harmonized.pdf}
     \end{subfigure}
     
-    \vspace{1em} % This adds a bit of vertical space between the rows of figures
-
-    \begin{subfigure}[b]{0.48\textwidth} % Adjusted to 0.48 to allow some space between images
-    \centering
-    \includegraphics[width=0.99\textwidth,height=0.99\textwidth]{figs_01/a_dynamicworld.png}
-    \caption{Google Dynamic World}
-    \label{fig:lc_dynamicworld}
-    \end{subfigure}
-    \hfill % This adds a small horizontal space between the figures
-    \begin{subfigure}[b]{0.48\textwidth} % Adjusted to 0.48 to allow some space between images
-    \centering
-    \includegraphics[width=0.99\textwidth,height=0.99\textwidth]{figs_01/a_esri.png}
-    \caption{ESRI Land Cover}
-    \label{fig:lc_esri}
-    \end{subfigure}
-    \caption{Example of four global mapping projects on the Biesbosch wetlands area in the Netherlands.}
+    \caption{Comparison of four global mapping projects in the Biesbosch region, Google Dynamic World \citep{brown2022dynamic}, ESRI Land Cover \citep{karra2021global}, ESA WorldCover \citep{kerchove2021esa}, and GLAD Land Cover \citep{potapov2022global}. Note that each legend is more specific in some thematic types: GLAD differentiates more strongly based on tree cover, while ESA WorldCover differentiates more between different types of non-forested dry land.}
     \label{fig:bigmaps_biesbosch}
-    \end{figure}
+\end{figure}
+
 
  
     Although there are exceptions to each of these issues, in general, all of the current mapping initiatives have at least one of these limitations (see Table\@~\ref{tab:bigmaps}). There is value in mapping as far back as possible, something that the previous generation of global maps did do. An extreme example is the History database of the Global Environment (HYDE), which contains historic estimated maps at 10~km resolution of main land use categories going back more than 10 thousand years. (Klein Goldewijk et al. 2017). HYDE is also quite detailed, and includes irrigated areas, rice, intensive pasture, extensive rangelands and similar classes. This makes it useful despite its low spatial resolution. Regardless, there is a need for modern maps that do not sacrifice detail to maintain useful spatial resolution and accuracy, and which are made transparently and reproducibly, so that they can be challenged, improved, and trusted.
@@ -181,18 +178,18 @@
     \centering
     % \resizebox{\textwidth}{!}{%
     % \begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
-    \begin{tabularx}{\textwidth}{|>{\hsize=1.5\hsize}X|>{\hsize=.9\hsize}X|>{\hsize=.9\hsize}X|>{\hsize=.9\hsize}X|>{\hsize=.9\hsize}X|>{\hsize=.9\hsize}X|>{\hsize=.9\hsize}X|}
+    \begin{tabularx}{\textwidth}{>{\hsize=1.5\hsize}X|>{\hsize=.7\hsize}X|>{\hsize=.9\hsize}X|>{\hsize=.9\hsize}X|>{\hsize=.7\hsize}X|>{\hsize=.9\hsize}X>{\hsize=.9\hsize}X}
     \toprule
-    \textbf{Mapping Product}                                                & \textbf{Classes}  & \textbf{Training Data}                & \textbf{Validation Data}              & \textbf{Spatial Res.} & \textbf{Time Res.}  \\ \hline
+    \textbf{Mapping \makecell{Product}}                                                & \textbf{Classes}  & \textbf{Training Data}                & \textbf{Validation Data}              & \textbf{Spatial Res.} & \textbf{Time Res.}  \\ \hline
     ESA WorldCover \citep{zanaga2022esa}                                    & 11                & No                                    & No                                    & 10~m                      & 2020, 2021            \\ \hline
     ESA WorldCereal \citep{tricht2023worldcereal}                           & 10                & Yes \citep{worldcereal_rdm}           & Yes \citep{lesiv2023global}           & 10~m                      & 2021                  \\ \hline
     Google DynamicWorld \citep{brown2022dynamic}                            & 9                 & Yes \citep{tait2021dwtd}              & No                                    & 10~m                      & 2016+, monthly        \\ \hline 
     ESRI Land Cover \citep{karra2021global}                                 & 9                 & No                                    & No                                    & 10~m                      & 2017--2021, annual    \\ \hline
-    GLAD Global Land Cover and Land Use Change \citep{potapov2022global}    & 7                 & No                                    & No                                    & 30~m                      & 2000--2020, annual    \\ \hline 
+    \makecell[l]{GLAD Global} \makecell[l]{Land Cover and} \makecell[l]{Land Use} \makecell[l]{Change \citep{potapov2022global}}    & 7                 & No                                    & No                                    & 30~m                      & 2000--2020, annual    \\ \hline 
     GLC\_FC30 \citep{zhang2020glcfcs30}                                     & 30                & No                                    & Yes \citep{liangyun2019dataset}       & 30~m                      & 1982--2021, annual*   \\ \hline
     S2GLC Maps of Europe \citep{malinowski2020automated}                    & 13                & No                                    & Yes \citep{jenerowicz2021validation}  & 10~m                      & 2017                  \\ \hline 
-    ELC10 \citep{venter2021continentalscale}                                & 8                 & Yes \citet{dandrimont2020harmonised}  & Yes (cross-validation)                & 10~m                      & 2020                  \\ \hline
-    Pan-European land cover \citep{pflugmacher2019mapping}                  & 12                & Yes \citet{dandrimont2020harmonised}  & Yes (cross-validation)                & 30~m                      & One year              \\ \hline 
+    ELC10 \citep{venter2021continentalscale}                                & 8                 & Yes \citep{dandrimont2020harmonised}  & Yes (cross-validation)                & 10~m                      & 2020                  \\ \hline
+    Pan-European land cover \citep{pflugmacher2019mapping}                  & 12                & Yes \citep{dandrimont2020harmonised}  & Yes (cross-validation)                & 30~m                      & One year              \\ \hline 
     Australian Land Cover \citep{calderon2021high}                          & 6                 & No                                    & No                                    & 30~m                      & 1985-2015             \\ \bottomrule
     \end{tabularx}
     % }%
@@ -228,16 +225,16 @@ To what extent does training data from multiple times and places improve the acc
 \item % The Effect of Legend Design and Size: 
 How does the number and type of classes in a legend affect the accuracy of land cover classification?
 \item % Ensuring Land Cover Maps Match Area Estimates Without Sacrificing Accuracy: 
-What is the effect of enforcing correct class proportions on map accuracy?
+What is the effect of enforcing design-based class proportions on map accuracy?
 \end{enumerate}
 
 \section{Thesis Outline}
 
 The research questions posed in the previous section are answered through four research papers, which are presented as chapters in this thesis. Fig.\@~\ref{fig:01_rqs_chapters} provides a graphical overview of how each chapter relates to each research question framework. The first two chapters focus on combining earth observation and land cover data from multiple sources to train models that can generalize well to unknown years. Chapter\@~\ref{cha:chapter4} applies a novel algorithm that uses a-priori class proportions from area estimates to optimize the accuracy and quantity of predictions by such models.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{figs_01/fig_rqs_chapters.pdf}
+    \includegraphics[width=.55\textwidth]{figs_01/fig_rqs_chapters.pdf}
     \caption{Overview of which chapters discuss which research questions}
     \label{fig:01_rqs_chapters}
 \end{figure}
