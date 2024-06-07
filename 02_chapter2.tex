@@ -50,8 +50,8 @@ In order to quantify the extent to which these data sets complement each other a
 %f
 \begin{figure}[!hbt]
 \centering
-\hspace*{-2.9cm}
-\includegraphics[width=1.2\textwidth]{figs_02/fig_1_main_workflow.png}
+% \hspace*{-2.9cm}
+\includegraphics[width=1\textwidth]{figs_02/fig_1_main_workflow.png}
 \caption{Overview of the general workflow with input, intermediate, and output data sets, as well as operations and evaluations of data set quality.}
 \label{fig:1_methods_workflow}
 \end{figure}
@@ -368,6 +368,7 @@ Fig.\@~\ref{fig:9_landcover_feature_space} shows that models trained on data set
 \begin{table}[hbt]
 \caption{Overview of land cover classification tasks that were performed to compare the usefulness of the different products, with weighted averaged F1-scores from cross-validation and from predicting on test set.}
 \label{tab:landcover_experiments_results}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}llllrll@{}}
 \hline
 Dataset    & Resolution & Time range & DTM  & Training points & CV F1-score & Test F1-score \\ 
@@ -390,6 +391,8 @@ Landsat + Sentinel-2 & 10~m + 30m  & 2018--2021  & Yes    & 300,543   & \textbf{
 Landsat + Sentinel-2 & 10~m + 30m  & 2018--2021  & No     & 300,543   & 0.758 & 0.765 \\
 \hline
 \end{tabular}
+}
+
 \end{table}
 
 %\clearpage

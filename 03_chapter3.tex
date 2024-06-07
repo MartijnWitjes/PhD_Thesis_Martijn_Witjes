@@ -24,7 +24,7 @@ Anthropogenic land cover change has influenced global climate since the Paleolit
     
 Land cover mapping was initially done by visual interpretation of aerial photographs and later on with automated classification of multispectral remotely sensed data with semi-supervised or fully-supervised methods \citep{townshend2012global, feranec2016european, liu2021finer}. There are currently multiple global \citep{feng2019global,buchhorn2020copernicus} and regional \citep{homer2007completion,batista2013procedure,pflugmacher2019mapping,malinowski2020,dandrimont2021lucas} land cover products based on using Machine Learning and offering predictions (or their refinements) at high spatial resolutions for the whole of continental Europe (Table\@~\ref{tbl:existing_lc}). The increasing number of land cover applications and datasets in Europe can largely be attributed to (1) the extensive LUCAS \emph{in-situ} point data being publicly available for research, and (2) NASA's Landsat and ESA's Sentinel multispectral images being increasingly available for spatial analysis \citep{szantoi2020addressing,liu2021finer}.
     
-However, not all land cover prediction systems perform equally. \citet{vilar2019comparative} have done extensive evaluation of accuracy of the CLC products for period 2011--2012 using the LUCAS data and found that agreement with LUCAS was slightly higher for CCI-LC (59\%; 18 classes) than for CLC (56\%; 43 classes). \citet{gao2020consistency} has evaluated accuracy of the global 30~m resolution products GlobeLand30 with 10 classes \citep{chen2015global}, and GLFCS30 with 18 classes \citep{zhang2020glc_fcs30} using the LUCAS point data and concluded that the GlobeLand30-2010 product agrees with LUCAS points up to 89\%, while GLFCS30-2015 agrees up to 85\%. The large difference in the agreement reported by \citet{vilar2019comparative} and \citet{chen2015global} can be attributed to the number of classes in the two studies: the absolute accuracy linearly drops with the number of classes \citep{herold2008some,van2019does}, and usually the accuracy results for 6--10 classes vs 40 classes can be up to 50\% better. 
+However, not all land cover prediction systems perform equally. \citet{vilar2019comparative} have done extensive evaluation of accuracy of the CLC products for period 2011--2012 using the LUCAS data and found that agreement with LUCAS was slightly higher for CCI-LC (59\%; 18 classes) than for CLC (56\%; 43 classes). \citet{gao2020consistency} has evaluated accuracy of the global 30~m resolution products GlobeLand30 with 10 classes \citep{chen2015global}, and GLFCS30 with 18 classes \citep{zhang2020glcfcs30} using the LUCAS point data and concluded that the GlobeLand30-2010 product agrees with LUCAS points up to 89\%, while GLFCS30-2015 agrees up to 85\%. The large difference in the agreement reported by \citet{vilar2019comparative} and \citet{chen2015global} can be attributed to the number of classes in the two studies: the absolute accuracy linearly drops with the number of classes \citep{herold2008some,van2019does}, and usually the accuracy results for 6--10 classes vs 40 classes can be up to 50\% better. 
     
 Generally, the accuracy of European land cover mapping projects match those in other parts of the world. For example, \citet{calderon2021high} achieved 90\% producer's accuracy when classifying on 6 classes for 7 separate years between 1985 and 2015, using Landsat data of Australia. \citet{tsendbazar2018developing} reports similar accuracy levels for Africa. Likewise, \citet{liu2020annual} reports 83\% accuracy on 7 classes with 34 years of GLASS data. Finally, the US National Land Cover Database reports accuracy of at least 80\% for 16 classes at 30~m in 2001, 2004, 2006, 2008, 2011, 2013, 2016, and 2018 \citep{homer2020conterminous}.
     
@@ -43,7 +43,7 @@ ESA CCI-LC                    & 1998-2002, 2003-2007, 2008-2012   & 300-m       
 \citet{batista2013procedure}                        & 2006                              & 100-m         & 70\%              & 42        & N / N \\
 S2GLC \citep{malinowski2020}             & 2017                              & 10~m          & 89\%              & 15        & N / N \\
 \citet{pflugmacher2019mapping}                      & 2014-2016                         & 30~m          & 75\%              & 12        & N / N \\
-GLFCS30 \citep{zhang2020glc_fcs30}      & 2015, 2020                        & 30-m          & 83\%/71\%/69\%    & 9/16/24   & N / N \\
+GLFCS30 \citep{zhang2020glcfcs30}      & 2015, 2020                        & 30-m          & 83\%/71\%/69\%    & 9/16/24   & N / N \\
 \citet{buchhorn2020copernicus}                      & 2015, 2016, 2017, 2018            & 100~m         & 80\%              & 10        & N / \textbf{Y} \\
 ESA WorldCover                           & 2020                              & 10~m          & $\leq$75\%        & $\leq$10  & N / N \\
  ELC10 \citep{venter2021continentalscale} & 2020                              & 10~m          & 90\%              & 8         & N / N \\
@@ -138,7 +138,7 @@ In the following section we describe how we prepared data, fitted models, tested
     
     \noindent where \emph{Y} is a binary matrix of expected class labels, \emph{N} is the total number of observations, \emph{K} is the number of classes, \emph{P} is the matrix of probabilities predicted by the model, \emph{y\textsubscript{i,k}} indicates whether sample \emph{i} belongs to class \emph{k}, and \emph{p\textsubscript{i,k}} indicates the probability of sample \emph{i} belonging to class \emph{j}. A log loss value close to 0 indicate high prediction performance, 0 being a perfect match, while values above 0 indicate progressively worse performance.
     
-    We performed 5--fold spatial cross-validation for each different hyperparameter combination (see Table\@~\ref{tab:hyperparameters}. These combinations were generated per model based on a grid search of 5 steps per hyperparameter. Fig.
+    We performed 5--fold spatial cross-validation for each different hyperparameter combination (see Table\@~\ref{tab:hyperparameters}. These combinations were generated per model based on a grid search of 5 steps per hyperparameter.
         
     \begin{table}[!hbt]
     \centering
@@ -297,9 +297,9 @@ In the following section we describe how we prepared data, fitted models, tested
     
     \begin{figure}[!hp]
     \centering
-    \vspace*{-1.5cm}
-        \hspace*{-3.5cm}
-        \includegraphics[width=1.2\textwidth]{figs_03/methods_dataset_countplot.png}
+    % \vspace*{-1.5cm}
+        % \hspace*{-3.5cm}
+        \includegraphics[width=1\textwidth]{figs_03/methods_dataset_countplot.png}
     \caption{Distribution of training points per data source (blue and green), class (top) and per survey year (bottom). The proportion of removed CLC points is indicated in red.}
     \label{fig:dataset_countplot}
     \end{figure}
@@ -371,8 +371,8 @@ In the following section we describe how we prepared data, fitted models, tested
     We assessed the quality of the training dataset by comparing it to a number of existing land cover products:
         
     \begin{itemize}
-    \item GLFCS30--2015 \citep{zhang2020glc_fcs30};
-    \item GLFCS30--2020 \citep{zhang2020glc_fcs30};
+    \item GLFCS30--2015 \citep{zhang2020glcfcs30};
+    \item GLFCS30--2020 \citep{zhang2020glcfcs30};
     \item S2GLC \citep{malinowski2020};
     \item The European land cover product for 2015 created by \citet{pflugmacher2019mapping};
     \item  ELC10 \citep{venter2021continentalscale}.
@@ -380,7 +380,7 @@ In the following section we describe how we prepared data, fitted models, tested
     
     For each comparison, we reclassified the training dataset to the nomenclature of the target dataset and overlaid all points from our dataset with survey dates from within one year of the land cover product. We then calculated the weighted F1-score as if the points represented predictions. Points with classes of the target products that were completely absent in the training point subsets (due to the target nomenclature of the training points) were removed before these assessments, potentially resulting in varying numbers of classes for the same dataset. 
     
-    The GLFCS30 nomenclature was not suitable for direct translation because some land cover types (such as forests) are separated into several subcategories. We therefore aggregated their thematic resolution to the higher level of abstraction described in \citet{zhang2020glc_fcs30}. The complete translation scheme is available via the GitLab repository of the GeoHarmonizer project (\url{https://gitlab.com/geoharmonizer_inea/spatial-layers}).
+    The GLFCS30 nomenclature was not suitable for direct translation because some land cover types (such as forests) are separated into several subcategories. We therefore aggregated their thematic resolution to the higher level of abstraction described in \citet{zhang2020glcfcs30}. The complete translation scheme is available via the GitLab repository of the GeoHarmonizer project (\url{https://gitlab.com/geoharmonizer_inea/spatial-layers}).
 
 \subsection*{Input variables}
     
@@ -538,10 +538,11 @@ In the following section we describe how we prepared data, fitted models, tested
         
         As the S2GLC points follow a different nomenclature, we translated the  ODSE-LULC predicted classes according to Table\@~\ref{tab:malinowski_keys}. Because any predicted classes outside the S2GLC nomenclature (labeled as 000: None in Table\@~\ref{tab:malinowski_keys}) would be automatically counted as errors, we performed two validations: (1) a conservative assessment that included  points with such predictions, and (2) an optimistic assessment where they were omitted.
         
-        \begin{table}[!hbt]
-        \centering
-        \caption{Reclassification key used to validate the predictions of our ensemble model on the S2GLC point dataset collected by \citet{malinowski2020}.}
-        \label{tab:malinowski_keys}
+\begin{table}[!hbt]
+    \centering
+    \caption{Reclassification key used to validate the predictions of our ensemble model on the S2GLC point dataset collected by \citet{malinowski2020}.}
+    \label{tab:malinowski_keys}
+    \adjustbox{max height=0.5\textheight}{ % adjust the 5cm value as needed
         \begin{tabular}{@{}ll@{}}
         \toprule
         S2GLC &  ODSE-LULC \\ \midrule
@@ -589,8 +590,9 @@ In the following section we describe how we prepared data, fitted models, tested
          & 521: Coastal lagoons \\
          & 522: Estuaries \\ \bottomrule
         \end{tabular}%
-        \end{table}
-     
+    }
+\end{table}
+
     
     \subsubsection*{Comparison of ensemble and component models}
         
@@ -1052,7 +1054,7 @@ In the following section we describe how we prepared data, fitted models, tested
         
         \begin{figure}[!hp]
         \centering
-        \includegraphics[width=0.9\linewidth]{figs_03/results_ensemble_comparison.png}
+        \includegraphics[width=0.8\linewidth]{figs_03/results_ensemble_comparison.png}
         \caption{Grouped bar plot of the F1-scores CLC class, plotted separately per model of the ensemble. Meta-learner performance is indicated in red on the background of each bar. If the random forest (blue), gradient boosted trees (orange) or neural network (green) outperformed the meta-learner, its bar will exceed the bigger meta-learner bar, indicating that the meta-learner did not learn to incorporate the model's higher performance into its final prediction.}
         \label{fig:ensemble_comparison}
         \end{figure}
@@ -1091,9 +1093,9 @@ In the following section we describe how we prepared data, fitted models, tested
     When taking into account the intensity of the changes the central European countries seem to be stable with the Iberian peninsula, Scandinavia and parts of eastern Europe exhibiting more intense changes.
     
     \begin{figure}[!hp]
-    \vspace*{-1.5cm}
-    \hspace*{-3.5cm}
-    \includegraphics[width=1.3\textwidth]{figs_03/results_landcover.png}
+    % \vspace*{-1.5cm}
+    % \hspace*{-3.5cm}
+    \includegraphics[width=1\textwidth]{figs_03/results_landcover.png}
     \caption{Dominant LULC classes, predicted probability and model variance for Non-irrigated arable land, Coniferous forest and Urban Fabric, RGB Landsat temporal composite (Spring season) for the years 2000 and 2019.}
     \label{fig:landcover}
     \end{figure}
@@ -1103,7 +1105,7 @@ In the following section we describe how we prepared data, fitted models, tested
     \vspace*{-1.5cm}
         \hspace*{-3.5cm}
     \centering 
-    \includegraphics[width=1.3\textwidth]{figs_03/results_ndvi_visual.png}
+    \includegraphics[width=1\textwidth]{figs_03/results_ndvi_visual.png}
     \caption{Trends in NDVI values between 2000 and 2019 compared to trends in LULC probabilities predicted by our ensemble model, as well as the derived LULC change classes between 2001 and 2018.} \label{fig:ndvi_slope}
     \end{figure}
     \end{landscape}
@@ -1181,7 +1183,7 @@ Further comparison of the most prominent change between 2001--2018 and our resul
 \begin{figure}[!hbt]
 \centering
 \hspace*{-1.5cm}
-\includegraphics[width=1.2\textwidth]{figs_03/discussion_landsat_acquisition.pdf}
+\includegraphics[width=1\textwidth]{figs_03/discussion_landsat_acquisition.pdf}
 \caption{NDVI signal for 880 million pixel values in our Landsat data between 2000 and 2019. Red dots indicate the average for each season for 880 million pixels over 11 tiles. The vertical line indicates the launch of Landsat 8, after which the acquisition scheme changed. This sample suggests that the structural difference between the two acquisition schemes in the Landsat ARD product created by \citet{potapov2020landsat} were not propagated into our aggregated and harmonized dataset.} \label{fig:landsat_acquisition_vs_ndvi}
 \end{figure}
         

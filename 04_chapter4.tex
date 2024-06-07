@@ -112,7 +112,7 @@ This chapter is based on:
         \begin{enumerate}
             \item Normalized Difference Vegetation Index (NDVI) \citep{rouse1974monitoring}, 
             \item Soil Adjusted Vegetation Index (SAVI) \citep{huete1988soil}, 
-            \item Modified Soil Adjusted Vegetation Index (MSAVI) \citep{qi1994modified}, 
+            \item Modified Soil Adjusted Vegetation Index (MSAVI) \citep{qi1994msavi}, 
             \item Normalized Difference Water Index (NDWI)  \citep{mcfeeters1996use}
             \item Normalized Difference Moisture Index(NDMI) \citep{gao1996ndwi},
             \item Normalized Burn Ratio (NBR) \citep{garcia1991mapping}, 
@@ -280,15 +280,15 @@ This chapter is based on:
     \end{figure}
 
     \begin{figure}[H]
-        \vspace*{-4cm}
+        % \vspace*{-4cm}
         \centering
-        \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.9\textwidth}
             \centering
             \caption{Local Model}\includegraphics[width=\textwidth]{figs_04/fig7a_probability_pixels_NL_local.pdf}
             \label{fig:probability_pixels_local}
             % \hspace{-0.9em}       
         \end{subfigure}
-        \begin{subfigure}[b]{\textwidth}
+        \begin{subfigure}[b]{0.9\textwidth}
            \centering
            \caption{General Model}
            \includegraphics[width=\textwidth]{figs_04/fig7b_probability_pixels_NL_general.pdf}
@@ -372,7 +372,7 @@ This chapter is based on:
     \end{figure}
 
     \begin{figure}[H]
-    \vspace{-2cm}
+    % \vspace{-2cm}
         \centering
         \includegraphics[width=\linewidth]{figs_04/fig11_jointplot_area_percent_error.pdf}
         \caption{Class-wise allocation disagreement of maximum likelihood (X-axis) and proportional (Y-axis) maps based on probabilities predicted by the general model (blue) and local models (orange). Allocation disagreement is quantified as area percent error: the percent point difference between the target area estimate and the amount of pixels classified on the map. Note that proportional maps had errors close to zero, with the exception of Luxembourg (indicated with $+$), and that highest likelihood maps based on probabilities predicted by local models had lower quantity disagreement than those based on predictions by the general model.}
@@ -402,9 +402,9 @@ This chapter is based on:
         Additionally, the iterative nature of IMP enables the production of spatially explicit uncertainty assessments. Pixel-level uncertainty is useful because it can be propagated in spatial models that use land cover as a covariate \citep{herold2016toward}. During this study, we found that the pixels classified in earlier iterations have a higher validation allocation disagreement than those classified in later iterations (see Fig.~\ref{fig:f1_score_during_filling} for an example). It is therefore possible to calculate separate precision (User's accuracy) scores per class and per iteration, leading to a more fine-grained indicator of each pixel's reliability for decision makers or use in subsequent modeling. The combination these 'iteration maps' (see Fig.~\ref{fig:map_example}~E)  with the user's accuracy of each iteration needs further study. 
 
         \begin{figure}
-            \vspace*{-4cm}
+            % \vspace*{-4cm}
             \centering
-            \begin{subfigure}[b]{0.82\textwidth}
+            \begin{subfigure}[b]{0.75\textwidth}
             \centering
             \caption{Local Model}\includegraphics[width=\textwidth]{figs_04/fig12a_f1_during_filling_local.pdf}
             \label{fig:f1_filling_local}
@@ -412,7 +412,7 @@ This chapter is based on:
             
             \end{subfigure}
             
-            \begin{subfigure}[b]{0.82\textwidth}
+            \begin{subfigure}[b]{0.75\textwidth}
            \centering
            \caption{General Model}
            \includegraphics[width=\textwidth]{figs_04/fig12b_f1_during_filling_general.pdf}
